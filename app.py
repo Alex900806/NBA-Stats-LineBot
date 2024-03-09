@@ -37,9 +37,10 @@ def handle_message(event):
             # 讀取 CSV 檔案
             df = pd.read_csv('data/bestPlayer.csv')
             if df is not None:
+                result = df.to_string(index=False)
                 line_bot_api.reply_message(
                     event.reply_token,
-                    TextSendMessage(text=state)
+                    TextSendMessage(text=result)
                 )
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 80))

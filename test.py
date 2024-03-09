@@ -11,9 +11,9 @@ import os
 # 讀取 CSV 檔案
 df = pd.read_csv('data/bestPlayer.csv')
 
-# text = df.to_string(index=False)
-print(df)
-print(type(str(df)))
+text = df.to_string(index=False)
+
+print(text)
 
 # 遍歷DataFrame的每一行，並將數據組成所需的格式
 # reply_message = ""
