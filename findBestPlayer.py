@@ -80,7 +80,7 @@ def get_nba_player_stats(sort_columns=['points']):
         gameStaticsAll_DF = pd.DataFrame(game)
         allGameStatics_DF = pd.concat([gameStaticsAll_DF])
     
-    allGameStatics_DF = allGameStatics_DF.sort_values(sort_columns, ascending=False).head(20)
+    allGameStatics_DF = allGameStatics_DF.sort_values(sort_columns, ascending=False).head(10)
     allGameStatics_DF.to_csv('data/bestPlayer.csv', index=False)
 
     print("findBestPlayer 執行完成")

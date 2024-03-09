@@ -1,18 +1,15 @@
-from nba_api.live.nba.endpoints import scoreboard, boxscore
+import pandas as pd
 
-# box = boxscore.BoxScore('0022300906').game
-# for player in box.get_dict()['homeTeam']['players']:
-#         # # 創建主隊單一球員數據資料(dict)
-#     print(player)
+# 讀取 CSV 檔案
+df = pd.read_csv('data/bestPlayer.csv')
 
-# 當天所有比賽的所有資料
-gamesAll = scoreboard.ScoreBoard().games
-    # 將資料轉成列表，每一個元素是字典
-gameData = gamesAll.get_dict()
+# print(df.to_html())
+        
+# 將結果轉換為文字訊息
+message = ""
+for index, row in df.iterrows():
+    message += f'{index}: {row[1]}, {row[2]}\n'
 
-    # 找出當天所有比賽的 gameId(list)
-gameIdSet = []
-for game in gameData:
-    gameIdSet.append(game['gameId'])
 
-print(gameIdSet)
+print(message)
+
