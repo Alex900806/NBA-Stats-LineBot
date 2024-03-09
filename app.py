@@ -31,11 +31,11 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     sortRule = event.message.text
-
     if sortRule:
+        text = get_nba_player_stats(sort_columns=['得分'])
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=sortRule)
+            TextSendMessage(text=text)
         )
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 80))
