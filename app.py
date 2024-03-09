@@ -34,11 +34,13 @@ def handle_message(event):
     if sortRule:
         state = get_nba_player_stats(sort_columns=['得分'])
         if state == "Completed":
-
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text=state)
-            )
+            # 讀取 CSV 檔案
+            df = pd.read_csv('data/bestPlayer.csv')
+            if df is not None:
+                line_bot_api.reply_message(
+                    event.reply_token,
+                    TextSendMessage(text=state)
+                )
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 80))
     app.run(host='0.0.0.0', port=port)
