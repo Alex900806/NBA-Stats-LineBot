@@ -37,10 +37,19 @@ def handle_message(event):
             # 讀取 CSV 檔案
             df = pd.read_csv('data/bestPlayer.csv')
             if df is not None:
-                result = df.to_string(index=False)
+                # 初始化訊息
+                message = ""
+
+                # 將每個球員的數據添加到訊息中
+                for index, row in df.iterrows():
+                    message += "球隊名稱: " + row['球隊名稱'] + "\n"  # 添加球員名稱
+                    for col in df.columns[1:]:  # 從第二列開始迭代，因為第一列是名稱
+                        message += f"{col}: {row[col]}\n"  # 添加球員的其他數據列
+                    message += "\n"  # 添加一個換行符，用於分隔不同球員的數據
+
                 line_bot_api.reply_message(
                     event.reply_token,
-                    TextSendMessage(text=result)
+                    TextSendMessage(text=message)
                 )
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 80))
