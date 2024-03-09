@@ -34,39 +34,45 @@ def handle_message(event):
     sortRule = event.message.text
 
     if sortRule:
-        # 執行你的程式並獲取排序後的結果
-        get_nba_player_stats(sort_columns=[sortRule])
-        
-        # 設置 Matplotlib 使用中文字體
-        plt.rcParams['font.family'] = 'Heiti TC'  # 指定中文字體
-        plt.rcParams['axes.unicode_minus'] = False  # 解決負號無法正確顯示的問題
-
-        # 讀取 CSV 檔案
-        df = pd.read_csv('data/bestPlayer.csv')
-        
-        # 將 DataFrame 轉換為圖片
-        fig, ax = plt.subplots(figsize=(12, 8), dpi=400)  # 調整圖片大小和解析度
-        ax.axis('tight')
-        ax.axis('off')
-        ax.table(cellText=df.values, colLabels=df.columns, loc='center')
-
-        # 將圖片存入 BytesIO 對象中
-        buffer = BytesIO()
-        plt.savefig(buffer, format='png')
-        buffer.seek(0)
-
-        # 將圖片保存到 photos 資料夾中
-        filename = 'image.png'
-        filepath = os.path.join("photos", filename)
-        with open(filepath, 'wb') as f:
-            f.write(buffer.getvalue())
-
-        # 發送圖片給用戶
         message = TextSendMessage(text=event.message.text)
-        line_bot_api.reply_message(
-            event.reply_token,
-            message
-        )
+        line_bot_api.reply_message(event.reply_token, message)
+        # # 執行你的程式並獲取排序後的結果
+        # get_nba_player_stats(sort_columns=[sortRule])
+        
+        # # 設置 Matplotlib 使用中文字體
+        # plt.rcParams['font.family'] = 'Heiti TC'  # 指定中文字體
+        # plt.rcParams['axes.unicode_minus'] = False  # 解決負號無法正確顯示的問題
+
+        # # 讀取 CSV 檔案
+        # df = pd.read_csv('data/bestPlayer.csv')
+        
+        # # 將 DataFrame 轉換為圖片
+        # ax = plt.subplots(figsize=(12, 8), dpi=400)  # 調整圖片大小和解析度
+        # ax.axis('tight')
+        # ax.axis('off')
+        # table = ax.table(cellText=df.values, colLabels=df.columns, loc='center')
+
+        # # 調整表格字型大小
+        # table.auto_set_font_size(False)
+        # table.set_fontsize(8)  # 設置字型大小為 10
+
+        # # 將圖片存入 BytesIO 對象中
+        # buffer = BytesIO()
+        # plt.savefig(buffer, format='png')
+        # buffer.seek(0)
+
+        # # 將圖片保存到 photos 資料夾中
+        # filename = 'image.png'
+        # filepath = os.path.join("photos", filename)
+        # with open(filepath, 'wb') as f:
+        #     f.write(buffer.getvalue())
+
+        # # 發送圖片給用戶
+        # message = TextSendMessage(text=event.message.text)
+        # line_bot_api.reply_message(
+        #     event.reply_token,
+        #     message
+        # )
   
        
 if __name__ == "__main__":
