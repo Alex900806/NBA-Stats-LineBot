@@ -8,13 +8,13 @@ from io import BytesIO
 import pandas as pd
 import os
 
-get_nba_player_stats()
+a = get_nba_player_stats()
 
-# 讀取 CSV 檔案
-df = pd.read_csv('data/bestPlayer.csv')
+# # 讀取 CSV 檔案
+# df = pd.read_csv('data/bestPlayer.csv')
 
-text = df.to_string(index=False)
-print(type(text))
+# text = df.to_string(index=False)
+print(type(a))
 
 # 遍歷DataFrame的每一行，並將數據組成所需的格式
 # reply_message = ""

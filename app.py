@@ -33,17 +33,21 @@ def callback():
 def handle_message(event):
     sortRule = event.message.text
     if sortRule:
-        # 執行你的程式並獲取排序後的結果
-        get_nba_player_stats(sort_columns=[sortRule])
+        # # 執行你的程式並獲取排序後的結果
+        # get_nba_player_stats(sort_columns=[sortRule])
 
-        # 讀取 CSV 檔案
-        df = pd.read_csv('data/bestPlayer.csv')
+        # # 讀取 CSV 檔案
+        # df = pd.read_csv('data/bestPlayer.csv')
 
-        # 將 DataFrame 轉換為 HTML 表格
-        html_table = df.to_html()
+        # # 將 DataFrame 轉換為 HTML 表格
+        # html_table = df.to_html()
         
         # 回覆處理後的訊息
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=html_table, parse_mode='html'))
+        # line_bot_api.reply_message(event.reply_token, TextSendMessage(text=html_table, parse_mode='html'))
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=sortRule)
+        )
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
