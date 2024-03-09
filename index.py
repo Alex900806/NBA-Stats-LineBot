@@ -31,11 +31,21 @@ def callback():
 # 處理 Line Bot 接收到的文字訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    sortRule = event.message.text
+    # # 獲取使用者傳送的訊息
+    # user_message = event.message.text
+    
+    # # 將訊息以空格分割成列表
+    # message_list = user_message.split()
+    
+    # # 回覆處理後的訊息列表
+    # reply_message = ', '.join(message_list)  # 將列表轉換為字串以便回覆
+    message = TextSendMessage(text=reply_message)
+    line_bot_api.reply_message(event.reply_token, message)
+    # sortRule = event.message.text
 
-    if sortRule:
-        message = TextSendMessage(text=event.message.text)
-        line_bot_api.reply_message(event.reply_token, message)
+    # if sortRule:
+    #     message = TextSendMessage(text=event.message.text)
+    #     line_bot_api.reply_message(event.reply_token, message)
         # # 執行你的程式並獲取排序後的結果
         # get_nba_player_stats(sort_columns=[sortRule])
         
