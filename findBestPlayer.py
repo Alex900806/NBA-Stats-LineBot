@@ -8,9 +8,9 @@ def get_nba_player_stats(sort_columns=['得分']):
     gameData = gamesAll.get_dict()
 
     # 找出當天所有比賽的 gameId(list)
-    gameIdSet = []
-    for game in gameData:
-        gameIdSet.append(game['gameId'])
+    gameIdSet = ['0022300906', '0022300907', '0022300908', '0022300902', '0022300903', '0022300904', '0022300905']
+    # for game in gameData:
+    #     gameIdSet.append(game['gameId'])
 
     # 今日所有比賽的資料
     allGameStatics = []
