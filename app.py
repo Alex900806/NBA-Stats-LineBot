@@ -4,17 +4,14 @@ from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
 
-
+# 本專案需要的套件
 from findBestPlayer import get_nba_player_stats
-from dotenv import load_dotenv
 import pandas as pd
 import os
 
 app = Flask(__name__)
-# 加載 .env 文件中的環境變數
-load_dotenv()
-line_bot_api = LineBotApi(os.getenv('LINE_CHANNEL_ACCESS_TOKEN'))
-handler = WebhookHandler(os.getenv('LINE_CHANNEL_SECRET'))
+line_bot_api = LineBotApi("eePfeX1FNoCtfl48u4HebyFSazpfZALB6fWOGdsCqArij7PZ+ywF/TEb5swwWjU+PFUpg7UqcfM3SJahDVyXf3SSZumO1UU2aQpRyG2h5tcT7/+sjeWNghomNc0mcQsJAAFXQWFcckWGxgqHXfNQIAdB04t89/1O/w1cDnyilFU=")
+handler = WebhookHandler("179e63fc2b3635b3fb11b814354ca98d")
 
 @app.route("/callback", methods=['POST'])
 def callback():
