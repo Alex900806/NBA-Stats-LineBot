@@ -62,7 +62,7 @@ def handle_message(event):
             f.write(buffer.getvalue())
 
         # 發送圖片給用戶
-            message = TextSendMessage(text="這是您要的數據資料")
+            message = TextSendMessage(text=event.message.text)
         line_bot_api.reply_message(
             event.reply_token,
             message
