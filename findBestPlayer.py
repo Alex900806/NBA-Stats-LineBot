@@ -83,4 +83,4 @@ def get_nba_player_stats(sort_columns=['得分']):
     allGameStatics_DF = allGameStatics_DF.sort_values(sort_columns, ascending=False).head(10)
     allGameStatics_DF.to_csv('data/bestPlayer.csv', index=False)
     
-    return "Find"
+    return "Completed"

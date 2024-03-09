@@ -32,11 +32,13 @@ def callback():
 def handle_message(event):
     sortRule = event.message.text
     if sortRule:
-        text = get_nba_player_stats(sort_columns=['得分'])
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=text)
-        )
+        state = get_nba_player_stats(sort_columns=['得分'])
+        if state == "Completed":
+
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=state)
+            )
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 80))
     app.run(host='0.0.0.0', port=port)
