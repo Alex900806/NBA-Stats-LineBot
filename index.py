@@ -31,64 +31,48 @@ def callback():
 # 處理 Line Bot 接收到的文字訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    # # 獲取使用者傳送的訊息
-    # user_message = event.message.text
-    
-    # # 將訊息以空格分割成列表
-    # message_list = user_message.split()
-    
-    # # 回覆處理後的訊息列表
-    # reply_message = ', '.join(message_list)  # 將列表轉換為字串以便回覆
-    message = TextSendMessage(text=reply_message)
-    line_bot_api.reply_message(event.reply_token, message)
-    # sortRule = event.message.text
+    sortRule = event.message.text
 
-    # if sortRule:
-    #     message = TextSendMessage(text=event.message.text)
-    #     line_bot_api.reply_message(event.reply_token, message)
-        # # 執行你的程式並獲取排序後的結果
-        # get_nba_player_stats(sort_columns=[sortRule])
+    if sortRule:
+        # 執行你的程式並獲取排序後的結果
+        get_nba_player_stats(sort_columns=[sortRule])
         
-        # # 設置 Matplotlib 使用中文字體
-        # plt.rcParams['font.family'] = 'Heiti TC'  # 指定中文字體
-        # plt.rcParams['axes.unicode_minus'] = False  # 解決負號無法正確顯示的問題
+        # 設置 Matplotlib 使用中文字體
+        plt.rcParams['font.family'] = 'Heiti TC'  # 指定中文字體
+        plt.rcParams['axes.unicode_minus'] = False  # 解決負號無法正確顯示的問題
 
-        # # 讀取 CSV 檔案
-        # df = pd.read_csv('data/bestPlayer.csv')
+        # 讀取 CSV 檔案
+        df = pd.read_csv('data/bestPlayer.csv')
         
-        # # 將 DataFrame 轉換為圖片
-        # ax = plt.subplots(figsize=(12, 8), dpi=400)  # 調整圖片大小和解析度
-        # ax.axis('tight')
-        # ax.axis('off')
-        # table = ax.table(cellText=df.values, colLabels=df.columns, loc='center')
+        # 將 DataFrame 轉換為圖片
+        ax = plt.subplots(figsize=(12, 8), dpi=400)  # 調整圖片大小和解析度
+        ax.axis('tight')
+        ax.axis('off')
+        table = ax.table(cellText=df.values, colLabels=df.columns, loc='center')
 
-        # # 調整表格字型大小
-        # table.auto_set_font_size(False)
-        # table.set_fontsize(8)  # 設置字型大小為 10
+        # 調整表格字型大小
+        table.auto_set_font_size(False)
+        table.set_fontsize(8)  # 設置字型大小為 10
 
-        # # 將圖片存入 BytesIO 對象中
-        # buffer = BytesIO()
-        # plt.savefig(buffer, format='png')
-        # buffer.seek(0)
+        # 將圖片存入 BytesIO 對象中
+        buffer = BytesIO()
+        plt.savefig(buffer, format='png')
+        buffer.seek(0)
 
-        # # 將圖片保存到 photos 資料夾中
-        # filename = 'image.png'
-        # filepath = os.path.join("photos", filename)
-        # with open(filepath, 'wb') as f:
-        #     f.write(buffer.getvalue())
+        # 將圖片保存到 photos 資料夾中
+        filename = 'image.png'
+        filepath = os.path.join("photos", filename)
+        with open(filepath, 'wb') as f:
+            f.write(buffer.getvalue())
 
-        # # 發送圖片給用戶
-        # message = TextSendMessage(text=event.message.text)
-        # line_bot_api.reply_message(
-        #     event.reply_token,
-        #     message
-        # )
+        # 發送圖片給用戶
+        message = TextSendMessage(text=event.message.text)
+        line_bot_api.reply_message(
+            event.reply_token,
+            message
+        )
   
        
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 80))
     app.run(host='0.0.0.0', port=port)
-# ImageSendMessage(
-            #     original_content_url='https://github.com/Alex900806/NBA-Status-LineBot/blob/main/photos/image.png',
-            #     preview_image_url='https://github.com/Alex900806/NBA-Status-LineBot/blob/main/photos/image.png'
-            # )

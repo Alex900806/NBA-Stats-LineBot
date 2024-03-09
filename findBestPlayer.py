@@ -1,16 +1,16 @@
 import pandas as pd
 from nba_api.live.nba.endpoints import scoreboard, boxscore
 
-def get_nba_player_stats(sort_columns=['points']):
+def get_nba_player_stats(sort_columns=['得分']):
     # 當天所有比賽的所有資料
     gamesAll = scoreboard.ScoreBoard().games
     # 將資料轉成列表，每一個元素是字典
     gameData = gamesAll.get_dict()
 
     # 找出當天所有比賽的 gameId(list)
-    gameIdSet = ['0022300906', '0022300907', '0022300908', '0022300902', '0022300903', '0022300904', '0022300905']
-    # for game in gameData:
-    #     gameIdSet.append(game['gameId'])
+    gameIdSet = []
+    for game in gameData:
+        gameIdSet.append(game['gameId'])
 
     # 今日所有比賽的資料
     allGameStatics = []
@@ -82,5 +82,3 @@ def get_nba_player_stats(sort_columns=['points']):
     
     allGameStatics_DF = allGameStatics_DF.sort_values(sort_columns, ascending=False).head(10)
     allGameStatics_DF.to_csv('data/bestPlayer.csv', index=False)
-
-    print("findBestPlayer 執行完成")
