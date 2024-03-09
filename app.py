@@ -39,11 +39,11 @@ def handle_message(event):
         # 讀取 CSV 檔案
         df = pd.read_csv('data/bestPlayer.csv')
 
-        text = df.to_string(index=False)
+        # 將 DataFrame 轉換為 HTML 表格
+        html_table = df.to_html()
         
         # 回覆處理後的訊息
-        message = TextSendMessage(text=text)
-        line_bot_api.reply_message(event.reply_token, message)
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=html_table, parse_mode='html'))
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
