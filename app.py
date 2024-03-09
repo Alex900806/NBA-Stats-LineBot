@@ -31,8 +31,7 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    sortRule = TextSendMessage(text=event.message.text)
-
+    sortRule = event.message.text
     # 執行你的程式並獲取排序後的結果
     get_nba_player_stats(sort_columns=[sortRule])
 
@@ -46,7 +45,7 @@ def handle_message(event):
         reply_message += team_info
     
     # 回覆處理後的訊息
-    message = TextSendMessage(text=reply_message.strip())  # 使用strip()方法移除最後的空行
+    message = TextSendMessage(text=reply_message)  # 使用strip()方法移除最後的空行
     line_bot_api.reply_message(event.reply_token, message)
 
 if __name__ == "__main__":
