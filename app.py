@@ -6,13 +6,15 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage
 
 
 from findBestPlayer import get_nba_player_stats
-from credentials.SECRET import Line_Channel_Access_Token, Line_Channel_Secret
+from dotenv import load_dotenv
 import pandas as pd
 import os
 
 app = Flask(__name__)
-line_bot_api = LineBotApi(Line_Channel_Access_Token)
-handler = WebhookHandler(Line_Channel_Secret)
+# 加載 .env 文件中的環境變數
+load_dotenv()
+line_bot_api = LineBotApi(os.getenv('LINE_CHANNEL_ACCESS_TOKEN'))
+handler = WebhookHandler(os.getenv('LINE_CHANNEL_SECRET'))
 
 @app.route("/callback", methods=['POST'])
 def callback():
