@@ -62,16 +62,17 @@ def handle_message(event):
             f.write(buffer.getvalue())
 
         # 發送圖片給用戶
+            message = TextSendMessage(text="這是您要的數據資料")
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text="這是您要的數據資料"),
-            # ImageSendMessage(
-            #     original_content_url='https://github.com/Alex900806/NBA-Status-LineBot/blob/main/photos/image.png',
-            #     preview_image_url='https://github.com/Alex900806/NBA-Status-LineBot/blob/main/photos/image.png'
-            # )
+            message
         )
   
        
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 80))
     app.run(host='0.0.0.0', port=port)
+# ImageSendMessage(
+            #     original_content_url='https://github.com/Alex900806/NBA-Status-LineBot/blob/main/photos/image.png',
+            #     preview_image_url='https://github.com/Alex900806/NBA-Status-LineBot/blob/main/photos/image.png'
+            # )
