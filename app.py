@@ -1,21 +1,18 @@
+# LineBot Flask 套件
 from flask import Flask, request, abort
-from linebot import (
-    LineBotApi, WebhookHandler
-)
-from linebot.exceptions import (
-    InvalidSignatureError
-)
-from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage
-)
+from linebot import LineBotApi, WebhookHandler
+from linebot.exceptions import InvalidSignatureError
+from linebot.models import MessageEvent, TextMessage, TextSendMessage
+
+
 from findBestPlayer import get_nba_player_stats
+from credentials.SECRET import Line_Channel_Access_Token, Line_Channel_Secret
 import pandas as pd
 import os
 
 app = Flask(__name__)
-
-line_bot_api = LineBotApi('eePfeX1FNoCtfl48u4HebyFSazpfZALB6fWOGdsCqArij7PZ+ywF/TEb5swwWjU+PFUpg7UqcfM3SJahDVyXf3SSZumO1UU2aQpRyG2h5tcT7/+sjeWNghomNc0mcQsJAAFXQWFcckWGxgqHXfNQIAdB04t89/1O/w1cDnyilFU=')
-handler = WebhookHandler('179e63fc2b3635b3fb11b814354ca98d')
+line_bot_api = LineBotApi(Line_Channel_Access_Token)
+handler = WebhookHandler(Line_Channel_Secret)
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -40,12 +37,12 @@ def handle_message(event):
             if df is not None:
                 # 初始化訊息
                 message = ""
-
                 # 將每個球員的數據添加到訊息中
                 for index, row in df.iterrows():
                     message += "球隊名稱: " + row['球隊名稱'] + "\n"
                     for col in df.columns[1:]:
                         message += f"{col}: {row[col]}\n"
+                        message += "\n"
 
                 line_bot_api.reply_message(
                     event.reply_token,
