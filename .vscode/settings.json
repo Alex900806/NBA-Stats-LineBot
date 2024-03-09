@@ -1,7 +1,8 @@
 {
   "python.analysis.diagnosticSeverityOverrides": {
     "reportMissingImports": "none",
-    "reportMissingModuleSource": "none"
+    "reportMissingModuleSource": "none",
+    "reportUndefinedVariable": "none"
   },
   "cSpell.words": ["linebot"]
 }
