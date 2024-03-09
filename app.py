@@ -41,6 +41,7 @@ def handle_message(event):
     if sortRule:
         # 根據排序規則取得 NBA 球員數據
         state = get_nba_player_stats(sort_columns=sortRule)
+        
         if state == "Completed":
             # 讀取 CSV 檔案
             df = pd.read_csv('data/bestPlayer.csv')
@@ -69,6 +70,10 @@ def handle_message(event):
 
                 # 回覆訊息給使用者
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
+        else:
+            message = "今天比賽還沒結束喔 再等一下吧~"
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
+
 
 
 if __name__ == "__main__":
