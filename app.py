@@ -31,8 +31,9 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     sortRule = event.message.text
+    sortRule = sortRule.split(" ")
     if sortRule:
-        state = get_nba_player_stats(sort_columns=[sortRule])
+        state = get_nba_player_stats(sort_columns=sortRule)
         if state == "Completed":
             # 讀取 CSV 檔案
             df = pd.read_csv('data/bestPlayer.csv')
@@ -45,7 +46,6 @@ def handle_message(event):
                     message += "球隊名稱: " + row['球隊名稱'] + "\n"
                     for col in df.columns[1:]:
                         message += f"{col}: {row[col]}\n"
-                    message += "\n"
 
                 line_bot_api.reply_message(
                     event.reply_token,
