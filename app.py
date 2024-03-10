@@ -71,7 +71,7 @@ def handle_message(event):
                 # 回覆訊息給使用者
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
         else:
-            message = "今天比賽還沒結束喔 再等一下吧~"
+            message = "今天的比賽還沒開始喔 再等一下呦~"
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
 
