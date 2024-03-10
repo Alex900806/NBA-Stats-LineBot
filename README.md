@@ -1,4 +1,4 @@
-# NBA Status + LineBot
+# NBA Stats + LineBot
 
 因為自己有在玩 NBA Fantasy Basketball，所以會有需要每天查詢當日表現較好球員的需求，因此我就思考或許能自動化這件事，降低自己手動查詢的時間，也透過和 LineBot 串接來提升可用性。
 
