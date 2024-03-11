@@ -65,7 +65,7 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
     
     elif textSendByUser == "使用指南":
-        message = "這是能每天提供最佳球員數據的平台 🏀\n您可以從下面三種排序方式快速使用，也可以透過自定義輸入來選擇排序方式\n如：輸入「得分」，就會依照得分來排序前10名球員\n能輸入的關鍵字有：得分、籃板、進攻籃板、防守籃板、助攻、抄截、火鍋、投籃進球數、投籃命中率、三分進球數、三分命中率、罰球進球數、罰球命中率、失誤、犯規、正負值、上場時間\n與 NBA Stats 一起快速看數據吧！"
+        message = "我能每天提供最佳球員的數據 🏀\n\n您可以從三種預設的排序方式快速使用，也可以透過「自定義輸入」來選擇喜歡的排序方式\n如：輸入「得分」，就會依照得分來排序今日得分前10名的球員\n\n能輸入的關鍵字有：\n得分、籃板、進攻籃板、防守籃板、助攻、抄截、火鍋、投籃進球數、投籃命中率、三分進球數、三分命中率、罰球進球數、罰球命中率、失誤、犯規、正負值、上場時間\n與 NBA Stats 一起快速看數據吧！"
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
     else:
         message = "無效輸入 請重新輸入"
