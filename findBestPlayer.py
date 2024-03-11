@@ -82,6 +82,11 @@ def get_nba_player_stats(sort_columns=['得分']):
             gameStaticsAll_DF = pd.DataFrame(game)
             allGameStatics_DF = pd.concat([gameStaticsAll_DF])
         
+        try:
+            allGameStatics_DF.sort_values(sort_columns, ascending=False).head(10)
+        except:
+             return "Sort Error"
+            
         allGameStatics_DF = allGameStatics_DF.sort_values(sort_columns, ascending=False).head(10)
         allGameStatics_DF.to_csv('data/bestPlayer.csv', index=False)
         
