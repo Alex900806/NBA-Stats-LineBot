@@ -15,6 +15,7 @@ Python, LineBot, Heroku
 
 - 學習使用 Python(Pandas) 來進行數據分析，將需要的資訊歸納出來
 - 學習將此專案部署在 Heroku，以持續運作此專案
+- 學習將專案想法和 LineBot 結合
 
 ## 實際頁面
 
