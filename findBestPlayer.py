@@ -2,18 +2,15 @@ import pandas as pd
 from nba_api.live.nba.endpoints import scoreboard, boxscore
 
 def get_nba_player_stats(sort_columns=['得分']):
-    # 當天所有比賽的所有資料
-    gamesAll = scoreboard.ScoreBoard().games
-    # 將資料轉成列表，每一個元素是字典
-    gameData = gamesAll.get_dict()
-    # 找出當天所有比賽的 gameId(list)
-    gameIdSet = []
+    gamesAll = scoreboard.ScoreBoard().games  # 當天所有比賽的所有資料
+    gameData = gamesAll.get_dict()     # 將資料轉成列表，每一個元素是字典
+
+    gameIdSet = []     # 找出當天所有比賽的 gameId(list)
     for game in gameData:
         gameIdSet.append(game['gameId'])
-    # 今日所有比賽的資料
-    allGameStatics = []
-    # 找出該比賽所有球員的數據資料(list)
-    gameStaticsAll = []
+    
+    allGameStatics = []# 今日所有比賽的資料
+    gameStaticsAll = []# 找出該比賽所有球員的數據資料(list)
 
     # 確認比賽是否全數打完
     gamePlayAlready = True
