@@ -13,8 +13,10 @@ import os
 app = Flask(__name__)
 
 # 連接 LineBot 的金鑰
-line_bot_api = LineBotApi("eePfeX1FNoCtfl48u4HebyFSazpfZALB6fWOGdsCqArij7PZ+ywF/TEb5swwWjU+PFUpg7UqcfM3SJahDVyXf3SSZumO1UU2aQpRyG2h5tcT7/+sjeWNghomNc0mcQsJAAFXQWFcckWGxgqHXfNQIAdB04t89/1O/w1cDnyilFU=")
-handler = WebhookHandler("179e63fc2b3635b3fb11b814354ca98d")
+# line_bot_api = LineBotApi("eePfeX1FNoCtfl48u4HebyFSazpfZALB6fWOGdsCqArij7PZ+ywF/TEb5swwWjU+PFUpg7UqcfM3SJahDVyXf3SSZumO1UU2aQpRyG2h5tcT7/+sjeWNghomNc0mcQsJAAFXQWFcckWGxgqHXfNQIAdB04t89/1O/w1cDnyilFU=")
+# handler = WebhookHandler("179e63fc2b3635b3fb11b814354ca98d")
+line_bot_api = LineBotApi(os.getenv('LINE_CHANNEL_ACCESS_TOKEN', None))
+handler = WebhookHandler(os.getenv('LINE_CHANNEL_SECRET', None))
 
 # 定義路由 "/callback" 來處理 LINE Messaging API 的 POST 請求
 @app.route("/callback", methods=['POST'])
@@ -32,7 +34,11 @@ def callback():
 def handle_message(event):
     textSendByUser = event.message.text # 獲取使用者傳遞的訊息
 
-    if textSendByUser != "使用指南":
+    if textSendByUser == "使用指南":
+        message = "我能每天提供最佳球員數據 🏀\n\n您可以從三種預設的排序方式快速使用，也可以透過「自定義輸入」來選擇喜歡的排序方式\n如：輸入「得分」，就會依照得分來排序今日得分前10名的球員\n\n能輸入的關鍵字有：\n得分、籃板、進攻籃板、防守籃板、助攻、抄截、火鍋、投籃進球數、投籃命中率、三分進球數、三分命中率、罰球進球數、罰球命中率、失誤、犯規、正負值、上場時間\n\n快與 NBA Stats 一起快速看數據吧！"
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
+
+    else:
         sortRule = textSendByUser.split(" ") # 獲取排序規則
         state = get_nba_player_stats(sort_columns=sortRule) # 根據排序規則取得 NBA 球員數據
         
@@ -60,17 +66,14 @@ def handle_message(event):
                 message = message[:-29]
                 # 回覆訊息給使用者
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
+
         elif state == "Failed":
             message = "比賽尚未全部結束喔 請稍等~"
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
-        else:
+            
+        elif state == "Sort Error":
             message = "無效輸入 請重新輸入"
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
-
-    elif textSendByUser == "使用指南":
-        message = "我能每天提供最佳球員的數據 🏀\n\n您可以從三種預設的排序方式快速使用，也可以透過「自定義輸入」來選擇喜歡的排序方式\n如：輸入「得分」，就會依照得分來排序今日得分前10名的球員\n\n能輸入的關鍵字有：\n得分、籃板、進攻籃板、防守籃板、助攻、抄截、火鍋、投籃進球數、投籃命中率、三分進球數、三分命中率、罰球進球數、罰球命中率、失誤、犯規、正負值、上場時間\n\n與 NBA Stats 一起快速看數據吧！"
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
-    
 
 
 
