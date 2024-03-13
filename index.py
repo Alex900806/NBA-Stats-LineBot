@@ -6,7 +6,7 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage
 
 # 本專案需要的套件
 from findBestPlayer import get_nba_player_stats
-from dotenv import load_dotenv
+import settings
 import pandas as pd
 import os
 
