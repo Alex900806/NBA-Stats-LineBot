@@ -6,6 +6,7 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage
 
 # 本專案需要的套件
 from findBestPlayer import get_nba_player_stats
+from dotenv import load_dotenv
 import pandas as pd
 import os
 
@@ -15,8 +16,12 @@ app = Flask(__name__)
 # 連接 LineBot 的金鑰
 # line_bot_api = LineBotApi("eePfeX1FNoCtfl48u4HebyFSazpfZALB6fWOGdsCqArij7PZ+ywF/TEb5swwWjU+PFUpg7UqcfM3SJahDVyXf3SSZumO1UU2aQpRyG2h5tcT7/+sjeWNghomNc0mcQsJAAFXQWFcckWGxgqHXfNQIAdB04t89/1O/w1cDnyilFU=")
 # handler = WebhookHandler("179e63fc2b3635b3fb11b814354ca98d")
-line_bot_api = LineBotApi(os.getenv('LINE_CHANNEL_ACCESS_TOKEN', None))
-handler = WebhookHandler(os.getenv('LINE_CHANNEL_SECRET', None))
+
+load_dotenv(encoding="utf-8")
+CHANNEL_ACCESS_TOKEN = os.getenv('LINE_CHANNEL_ACCESS_TOKEN')
+CHANNEL_SECRET = os.getenv('LINE_CHANNEL_SECRET')
+line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
+handler = WebhookHandler(CHANNEL_SECRET)
 
 # 定義路由 "/callback" 來處理 LINE Messaging API 的 POST 請求
 @app.route("/callback", methods=['POST'])
