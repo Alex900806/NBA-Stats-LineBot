@@ -14,8 +14,8 @@ import os
 app = Flask(__name__)
 
 # 連接 LineBot 的金鑰
-line_bot_api = LineBotApi(settings.CHANNEL_ACCESS_TOKEN)
-handler = WebhookHandler(settings.CHANNEL_SECRET)
+line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
+handler = WebhookHandler(settings.LINE_CHANNEL_SECRET)
 
 # 定義路由 "/callback" 來處理 LINE Messaging API 的 POST 請求
 @app.route("/callback", methods=['POST'])
