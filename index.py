@@ -13,7 +13,7 @@ import os
 # 創建 Flask 應用程式
 app = Flask(__name__)
 
-# 連接 LineBot 的金鑰
+# 連接 LineBot 的兩個金鑰
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(settings.LINE_CHANNEL_SECRET)
 
