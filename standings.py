@@ -59,15 +59,16 @@ def get_standings():
 
 def get_standings_async():
     global state
+    standings = get_standings()
     with state_lock:
-        state = get_standings()
+        state = standings
 
 
 def handle_standings_request():
     global state
     t = threading.Thread(target=get_standings_async)
     t.start()
-    t.join()  # 等待子執行緒完成
+    t.join(timeout=10)  # 等待子執行緒完成，最多等待10秒
     if state == "OK":
         message = ""
         East_df = pd.read_csv("data/eastStandings.csv")
