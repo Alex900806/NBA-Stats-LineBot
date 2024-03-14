@@ -51,3 +51,9 @@ def get_standings():
     westStandings_DF.to_csv("data/westStandings.csv", index=False)
 
     return "OK"
+
+
+# 定義一個函式來執行 get_standings()，並將其返回值存儲到全域變數 state 中
+def get_standings_async():
+    global state
+    state = get_standings()
