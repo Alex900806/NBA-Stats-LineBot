@@ -43,9 +43,10 @@ def handle_message(event):
     elif textSendByUser == "聯盟戰績":
         state = get_standings()
         if state == "Completed":
+            message = ""
             East_df = pd.read_csv("data/eastStandings.csv")
             if East_df is not None:
-                message = "東區戰績\n"
+                message += "東區戰績\n"
                 for index, row in East_df.iterrows():
                     message += f"{index+1}. {row['球隊名稱']} {row['戰績']}\n"
 
@@ -54,7 +55,6 @@ def handle_message(event):
                 message += "西區戰績\n"
                 for index, row in West_df.iterrows():
                     message += f"{index+1}. {row['球隊名稱']} {row['戰績']}\n"
-
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
         else:
             message = "處理失敗 請重新輸入"
