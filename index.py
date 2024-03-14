@@ -41,24 +41,24 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
     elif textSendByUser == "聯盟戰績":
-        state = get_standings()
-        if state == "OK":
-            # East_df = pd.read_csv("data/eastStandings.csv")
-            # if not East_df.empty:
-            message = "yaya"
-            #     message += "東區戰績\n"
-            #     for index, row in East_df.iterrows():
-            #         message += f"{index+1}. {row['球隊名稱']} {row['戰績']}\n"
+        # state = get_standings()
+        # if state == "OK":
+        # East_df = pd.read_csv("data/eastStandings.csv")
+        # if not East_df.empty:
+        message = "hello"
+        #     message += "東區戰績\n"
+        #     for index, row in East_df.iterrows():
+        #         message += f"{index+1}. {row['球隊名稱']} {row['戰績']}\n"
 
-            # West_df = pd.read_csv("data/westStandings.csv")
-            # if not West_df.empty:
-            #     message += "西區戰績\n"
-            #     for index, row in West_df.iterrows():
-            #         message += f"{index+1}. {row['球隊名稱']} {row['戰績']}\n"
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
-        else:
-            message = "處理失敗 請重新輸入"
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
+        # West_df = pd.read_csv("data/westStandings.csv")
+        # if not West_df.empty:
+        #     message += "西區戰績\n"
+        #     for index, row in West_df.iterrows():
+        #         message += f"{index+1}. {row['球隊名稱']} {row['戰績']}\n"
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
+        # else:
+        #     message = "處理失敗 請重新輸入"
+        #     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
     else:
         sortRule = textSendByUser.split(" ")  # 獲取排序規則
