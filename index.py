@@ -45,6 +45,7 @@ def handle_message(event):
         state = None
         t = threading.Thread(target=get_standings_async)
         t.start()
+        t.join()
         while state is None:
             pass
         if state == "OK":
