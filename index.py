@@ -41,11 +41,11 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
     elif textSendByUser == "聯盟戰績":
-        # state = get_standings()
+        state = get_standings()
         # if state == "OK":
         # East_df = pd.read_csv("data/eastStandings.csv")
         # if not East_df.empty:
-        message = "hello"
+        message = state
         #     message += "東區戰績\n"
         #     for index, row in East_df.iterrows():
         #         message += f"{index+1}. {row['球隊名稱']} {row['戰績']}\n"
