@@ -46,8 +46,7 @@ def handle_message(event):
         t = threading.Thread(target=get_standings_async)
         t.start()
         t.join()
-        while state is None:
-            pass
+
         if state == "OK":
             message = "hello"
             # East_df = pd.read_csv("data/eastStandings.csv")
