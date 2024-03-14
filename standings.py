@@ -62,6 +62,7 @@ def get_standings_async():
     standings = get_standings()
     with state_lock:
         state = standings
+        return state
 
 
 def handle_standings_request():
