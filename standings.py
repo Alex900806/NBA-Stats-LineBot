@@ -50,4 +50,4 @@ def get_standings():
     westStandings_DF = pd.DataFrame(westStandings).sort_values("戰績", ascending=False)
     westStandings_DF.to_csv("data/westStandings.csv", index=False)
 
-    return "Completed"
+    return "OK"

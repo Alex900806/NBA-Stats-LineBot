@@ -42,20 +42,22 @@ def handle_message(event):
 
     elif textSendByUser == "聯盟戰績":
         state = get_standings()
-        if state == "Completed":
+        if state == "OK":
             East_df = pd.read_csv("data/eastStandings.csv")
-            if East_df is not None:
-                message = "東區戰績\n"
-                for index, row in East_df.iterrows():
-                    message += f"{index+1}. {row['球隊名稱']} {row['戰績']}\n"
+            if not East_df.empty:
+                message = "yaya"
+                #     message += "東區戰績\n"
+                #     for index, row in East_df.iterrows():
+                #         message += f"{index+1}. {row['球隊名稱']} {row['戰績']}\n"
 
-            West_df = pd.read_csv("data/westStandings.csv")
-            if West_df is not None:
-                message += "西區戰績\n"
-                for index, row in West_df.iterrows():
-                    message += f"{index+1}. {row['球隊名稱']} {row['戰績']}\n"
-
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
+                # West_df = pd.read_csv("data/westStandings.csv")
+                # if not West_df.empty:
+                #     message += "西區戰績\n"
+                #     for index, row in West_df.iterrows():
+                #         message += f"{index+1}. {row['球隊名稱']} {row['戰績']}\n"
+                line_bot_api.reply_message(
+                    event.reply_token, TextSendMessage(text=message)
+                )
         else:
             message = "處理失敗 請重新輸入"
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
