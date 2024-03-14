@@ -6,10 +6,9 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage
 
 # 本專案需要的套件
 from findBestPlayer import get_nba_player_stats
-from standings import get_standings_async
+from standings import get_standings
 import settings
 import pandas as pd
-import threading
 import os
 
 # 創建 Flask 應用程式
@@ -42,34 +41,24 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
     elif textSendByUser == "聯盟戰績":
-        state_lock = threading.Lock()
-        global state
-        state = None
-        t = threading.Thread(target=get_standings_async)
-        t.start()
-        t.join()
-        with state_lock:
-            if state == "OK":
-                message = "hello"
-                # East_df = pd.read_csv("data/eastStandings.csv")
-                # if not East_df.empty:
-                #     message += "東區戰績\n"
-                #     for index, row in East_df.iterrows():
-                #         message += f"{index+1}. {row['球隊名稱']} {row['戰績']}\n"
+        state = get_standings()
+        if state == "OK":
+            message = ""
+            East_df = pd.read_csv("data/eastStandings.csv")
+            if not East_df.empty:  # 檢查 DataFrame 是否為空
+                message += "東區戰績\n"
+                for index, row in East_df.iterrows():
+                    message += f"{index+1}. {row['球隊名稱']} {row['戰績']}\n"
 
-                # West_df = pd.read_csv("data/westStandings.csv")
-                # if not West_df.empty:
-                #     message += "西區戰績\n"
-                #     for index, row in West_df.iterrows():
-                #         message += f"{index+1}. {row['球隊名稱']} {row['戰績']}\n"
-                line_bot_api.reply_message(
-                    event.reply_token, TextSendMessage(text=message)
-                )
-            else:
-                message = "處理失敗 請重新輸入"
-                line_bot_api.reply_message(
-                    event.reply_token, TextSendMessage(text=message)
-                )
+            West_df = pd.read_csv("data/westStandings.csv")
+            if not West_df.empty:  # 檢查 DataFrame 是否為空
+                message += "西區戰績\n"
+                for index, row in West_df.iterrows():
+                    message += f"{index+1}. {row['球隊名稱']} {row['戰績']}\n"
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
+        else:
+            message = "處理失敗 請重新輸入"
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
     else:
         sortRule = textSendByUser.split(" ")  # 獲取排序規則
