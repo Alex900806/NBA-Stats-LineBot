@@ -6,6 +6,7 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage
 
 # 本專案需要的套件
 from findBestPlayer import get_nba_player_stats
+from standings import get_standings
 import settings
 import pandas as pd
 import os
@@ -17,35 +18,59 @@ app = Flask(__name__)
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(settings.LINE_CHANNEL_SECRET)
 
+
 # 定義路由 "/callback" 來處理 LINE Messaging API 的 POST 請求
-@app.route("/callback", methods=['POST'])
+@app.route("/callback", methods=["POST"])
 def callback():
-    signature = request.headers['X-Line-Signature'] # 從請求標頭中取得簽名
-    body = request.get_data(as_text=True) # 取得請求內容
+    signature = request.headers["X-Line-Signature"]  # 從請求標頭中取得簽名
+    body = request.get_data(as_text=True)  # 取得請求內容
     app.logger.info("Request body: " + body)
     try:
-        handler.handle(body, signature) # 驗證簽名並處理請求
+        handler.handle(body, signature)  # 驗證簽名並處理請求
     except InvalidSignatureError:
-        abort(400) # 簽名無效時回傳 400 錯誤
-    return 'OK'
+        abort(400)  # 簽名無效時回傳 400 錯誤
+    return "OK"
+
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    textSendByUser = event.message.text # 獲取使用者傳遞的訊息
+    textSendByUser = event.message.text  # 獲取使用者傳遞的訊息
 
     if textSendByUser == "使用指南":
         message = "我能每天提供最佳球員數據 🏀\n\n您可以從三種預設的排序方式快速使用，也可以透過「自定義輸入」來選擇喜歡的排序方式\n如：輸入「得分」，就會依照得分來排序今日得分前10名的球員\n\n能輸入的關鍵字有：\n得分、籃板、進攻籃板、防守籃板、助攻、抄截、火鍋、投籃進球數、投籃命中率、三分進球數、三分命中率、罰球進球數、罰球命中率、失誤、犯規、正負值、上場時間\n\n與 NBA Stats 一起快速看數據吧！"
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
-    else:
-        sortRule = textSendByUser.split(" ") # 獲取排序規則
-        state = get_nba_player_stats(sort_columns=sortRule) # 根據排序規則取得 NBA 球員數據
-        
+    elif textSendByUser == "聯盟戰績":
+        state = get_standings()
         if state == "Completed":
-            df = pd.read_csv('data/bestPlayer.csv') # 讀取 CSV 檔案
+            East_df = pd.read_csv("data/eastStandings.csv")
+            if East_df is not None:
+                message = "東區戰績\n"
+                for index, row in East_df.iterrows():
+                    message += f"{index+1}. {row['球隊名稱']} {row['戰績']}\n"
+
+            West_df = pd.read_csv("data/westStandings.csv")
+            if West_df is not None:
+                message += "西區戰績\n"
+                for index, row in West_df.iterrows():
+                    message += f"{index+1}. {row['球隊名稱']} {row['戰績']}\n"
+
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
+        else:
+            message = "處理失敗 請重新輸入"
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
+
+    else:
+        sortRule = textSendByUser.split(" ")  # 獲取排序規則
+        state = get_nba_player_stats(
+            sort_columns=sortRule
+        )  # 根據排序規則取得 NBA 球員數據
+
+        if state == "Completed":
+            df = pd.read_csv("data/bestPlayer.csv")  # 讀取 CSV 檔案
 
             if df is not None:
-                message = "" # 初始化訊息
+                message = ""  # 初始化訊息
                 for index, row in df.iterrows():
                     message += f"名稱: {row['名稱']} ({row['球隊名稱']})\n"
                     message += f"位置: {row['位置']}\n"
@@ -64,18 +89,19 @@ def handle_message(event):
                     message += "----------------------------\n"
                 message = message[:-29]
                 # 回覆訊息給使用者
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
+                line_bot_api.reply_message(
+                    event.reply_token, TextSendMessage(text=message)
+                )
 
         elif state == "Failed":
             message = "比賽尚未全部結束喔 請稍等~"
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
-            
+
         elif state == "Sort Error":
             message = "無效輸入 請重新輸入"
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
 
-
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 80))
-    app.run(host='0.0.0.0', port=port)
+    port = int(os.environ.get("PORT", 80))
+    app.run(host="0.0.0.0", port=port)
