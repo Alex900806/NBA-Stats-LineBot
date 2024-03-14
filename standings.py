@@ -1,5 +1,10 @@
 import pandas as pd
 from nba_api.stats.endpoints import leaguestandings
+import threading
+
+# 定義全域變數 state 和 state_lock
+state = None
+state_lock = threading.Lock()
 
 
 def get_standings():
@@ -56,4 +61,5 @@ def get_standings():
 # 定義一個函式來執行 get_standings()，並將其返回值存儲到全域變數 state 中
 def get_standings_async():
     global state
-    state = get_standings()
+    with state_lock:
+        state = get_standings()
