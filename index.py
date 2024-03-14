@@ -48,6 +48,7 @@ def handle_message(event):
         while state is None:
             pass
         if state == "OK":
+            message = ""
             East_df = pd.read_csv("data/eastStandings.csv")
             if not East_df.empty:
                 message += "東區戰績\n"
