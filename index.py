@@ -20,11 +20,6 @@ line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(settings.LINE_CHANNEL_SECRET)
 
 
-# 在這裡初始化 received_player_name 為 None
-if "received_player_name" not in session:
-    session["received_player_name"] = None
-
-
 # 定義路由 "/callback" 來處理 LINE Messaging API 的 POST 請求
 @app.route("/callback", methods=["POST"])
 def callback():
