@@ -65,23 +65,40 @@ def get_standings_async():
         return state
 
 
+# def handle_standings_request():
+#     global state
+#     t = threading.Thread(target=get_standings_async)
+#     t.start()
+#     t.join(timeout=10)  # 等待子執行緒完成，最多等待10秒
+#     if state == "OK":
+#         message = ""
+#         East_df = pd.read_csv("data/eastStandings.csv")
+#         if not East_df.empty:
+#             message += "東區戰績\n"
+#             for index, row in East_df.iterrows():
+#                 message += f"{index+1}. {row['球隊名稱']} {row['戰績']}\n"
+#         West_df = pd.read_csv("data/westStandings.csv")
+#         if not West_df.empty:
+#             message += "西區戰績\n"
+#             for index, row in West_df.iterrows():
+#                 message += f"{index+1}. {row['球隊名稱']} {row['戰績']}\n"
+#         return message
+#     else:
+#         return "處理失敗 請重新輸入"
 def handle_standings_request():
     global state
     t = threading.Thread(target=get_standings_async)
     t.start()
     t.join(timeout=10)  # 等待子執行緒完成，最多等待10秒
-    if state == "OK":
-        message = ""
-        East_df = pd.read_csv("data/eastStandings.csv")
-        if not East_df.empty:
-            message += "東區戰績\n"
-            for index, row in East_df.iterrows():
-                message += f"{index+1}. {row['球隊名稱']} {row['戰績']}\n"
+    message = "hello\n"
+    East_df = pd.read_csv("data/eastStandings.csv")
+    if not East_df.empty:
+        message += "東區戰績\n"
+        for index, row in East_df.iterrows():
+            message += f"{index+1}. {row['球隊名稱']} {row['戰績']}\n"
         West_df = pd.read_csv("data/westStandings.csv")
-        if not West_df.empty:
-            message += "西區戰績\n"
-            for index, row in West_df.iterrows():
-                message += f"{index+1}. {row['球隊名稱']} {row['戰績']}\n"
-        return message
-    else:
-        return "處理失敗 請重新輸入"
+    if not West_df.empty:
+        message += "西區戰績\n"
+        for index, row in West_df.iterrows():
+            message += f"{index+1}. {row['球隊名稱']} {row['戰績']}\n"
+    return message
