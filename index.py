@@ -41,7 +41,7 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
     elif textSendByUser == "聯盟戰績":
-        message = "聯盟戰績"
+        message = handle_standings_request()
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
     else:
