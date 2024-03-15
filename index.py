@@ -1,5 +1,5 @@
 # LineBot Flask 套件
-from flask import Flask, request, abort, session
+from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
@@ -13,7 +13,6 @@ import os
 
 # 創建 Flask 應用程式
 app = Flask(__name__)
-app.secret_key = os.urandom(24)
 
 # 連接 LineBot 的兩個金鑰
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
@@ -45,15 +44,9 @@ def handle_message(event):
         message = handle_standings_request()
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
-    elif textSendByUser == "球員可視化數據":
-        message = "請提供想查看的球員名字(英文全名)"
-        session["received_player_name"] = ""  # 將 received_player_name 設置為空字符串
+    elif textSendByUser[0:7] == "球員可視化數據":
+        message = textSendByUser[8:]
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
-
-        if session["received_player_name"] is not None:
-            message = textSendByUser
-            session["received_player_name"] = None
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
     else:
         sortRule = textSendByUser.split(" ")  # 獲取排序規則
