@@ -1,5 +1,5 @@
 # LineBot Flask 套件
-from flask import Flask, request, abort
+from flask import Flask, request, abort, session
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
@@ -13,12 +13,16 @@ import os
 
 # 創建 Flask 應用程式
 app = Flask(__name__)
+app.secret_key = os.urandom(24)
 
 # 連接 LineBot 的兩個金鑰
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(settings.LINE_CHANNEL_SECRET)
 
-received_player_name = None
+
+# 在這裡初始化 received_player_name 為 None
+if "received_player_name" not in session:
+    session["received_player_name"] = None
 
 
 # 定義路由 "/callback" 來處理 LINE Messaging API 的 POST 請求
@@ -48,23 +52,13 @@ def handle_message(event):
 
     elif textSendByUser == "球員可視化數據":
         message = "請提供想查看的球員名字(英文全名)"
+        session["received_player_name"] = ""  # 將 received_player_name 設置為空字符串
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
-        received_player_name = ""
 
-    elif received_player_name is not None:
-        # # 根據球員名字生成可視化數據
-        # visualization_image = generate_player_visualization(received_player_name)
-
-        # # 將生成的圖片傳送給用戶
-        # line_bot_api.reply_message(
-        #     event.reply_token,
-        #     ImageSendMessage(
-        #         original_content_url=visualization_image_url,
-        #         preview_image_url=visualization_image_url,
-        #     ),
-        # )
+    elif session["received_player_name"] is not None:
         message = textSendByUser
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
+        session["received_player_name"] = None
 
     else:
         sortRule = textSendByUser.split(" ")  # 獲取排序規則
