@@ -63,7 +63,7 @@ def handle_message(event):
         #         preview_image_url=visualization_image_url,
         #     ),
         # )
-        message = received_player_name
+        message = textSendByUser
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
     else:
