@@ -44,7 +44,7 @@ def handle_standings_request():
     t = threading.Thread(target=get_standings_async)
     t.start()
     t.join(timeout=10)  # 等待子執行緒完成，最多等待10秒
-    message = "現在戰績狀況如下：\n"
+    message = ""
     East_df = pd.read_csv("data/eastStandings.csv")
     if not East_df.empty:
         message += "------------東區戰績------------\n"
@@ -61,7 +61,5 @@ def handle_standings_request():
             team = row["球隊名稱"]
             record = row["戰績"]  # 戰績保持原樣
             message += f"{rank} {team} ({record})\n"
+    message += "\n(數據處理稍慢 請見諒 ><)"
     return message
-
-
-# print(handle_standings_request())
