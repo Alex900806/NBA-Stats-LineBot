@@ -50,10 +50,10 @@ def handle_message(event):
         session["received_player_name"] = ""  # 將 received_player_name 設置為空字符串
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
-    elif session["received_player_name"] is not None:
-        message = textSendByUser
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
-        session["received_player_name"] = None
+    # elif session["received_player_name"] is not None:
+    #     message = textSendByUser
+    #     session["received_player_name"] = None
+    #     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
     else:
         sortRule = textSendByUser.split(" ")  # 獲取排序規則
