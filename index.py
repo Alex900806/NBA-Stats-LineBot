@@ -18,7 +18,7 @@ app = Flask(__name__)
 line_bot_api = LineBotApi(settings.LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(settings.LINE_CHANNEL_SECRET)
 
-received_player_name = ""  # 初始時尚未收到球員名字
+received_player_name = None
 
 
 # 定義路由 "/callback" 來處理 LINE Messaging API 的 POST 請求
@@ -47,11 +47,11 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
     elif textSendByUser == "球員可視化數據":
-        message = "請提供您想查看的球員名字(英文全名)"
-        received_player_name = ""  # 收到請求後將球員名字設置為空
+        message = "請提供想查看的球員名字(英文全名)"
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
+        received_player_name = ""
 
-    elif received_player_name:
+    elif received_player_name is not None:
         # # 根據球員名字生成可視化數據
         # visualization_image = generate_player_visualization(received_player_name)
 
