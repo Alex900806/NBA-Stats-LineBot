@@ -61,5 +61,5 @@ def handle_standings_request():
             team = row["球隊名稱"]
             record = row["戰績"]  # 戰績保持原樣
             message += f"{rank} {team} ({record})\n"
-    message += "\n(數據處理稍慢 請見諒 ><)"
+    message += "\n     (數據處理稍慢 請見諒 ><)"
     return message
