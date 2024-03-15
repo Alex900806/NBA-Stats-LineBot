@@ -54,51 +54,51 @@ def get_standings():
     westStandings_DF = pd.DataFrame(westStandings).sort_values("戰績", ascending=False)
     westStandings_DF.to_csv("data/westStandings.csv", index=False)
 
-    return "OK"
 
-
-def get_standings_async():
-    global state
-    standings = get_standings()
-    with state_lock:
-        state = standings
-        return state
-
-
-# def handle_standings_request():
+# def get_standings_async():
 #     global state
-#     t = threading.Thread(target=get_standings_async)
-#     t.start()
-#     t.join(timeout=10)  # 等待子執行緒完成，最多等待10秒
-#     if state == "OK":
-#         message = ""
-#         East_df = pd.read_csv("data/eastStandings.csv")
-#         if not East_df.empty:
-#             message += "東區戰績\n"
-#             for index, row in East_df.iterrows():
-#                 message += f"{index+1}. {row['球隊名稱']} {row['戰績']}\n"
-#         West_df = pd.read_csv("data/westStandings.csv")
-#         if not West_df.empty:
-#             message += "西區戰績\n"
-#             for index, row in West_df.iterrows():
-#                 message += f"{index+1}. {row['球隊名稱']} {row['戰績']}\n"
-#         return message
-#     else:
-#         return "處理失敗 請重新輸入"
+#     standings = get_standings()
+#     with state_lock:
+#         state = standings
+#         return state
+
+
 def handle_standings_request():
-    global state
-    t = threading.Thread(target=get_standings_async)
-    t.start()
-    t.join(timeout=10)  # 等待子執行緒完成，最多等待10秒
-    message = "hello\n"
+    # global state
+    # t = threading.Thread(target=get_standings_async)
+    # t.start()
+    # t.join(timeout=10)  # 等待子執行緒完成，最多等待10秒
+    # message = ""
+    # East_df = pd.read_csv("data/eastStandings.csv")
+    # if not East_df.empty:
+    #     message += "東區戰績\n"
+    #     for index, row in East_df.iterrows():
+    #         message += f"{index+1}. {row['球隊名稱']} {row['戰績']}\n"
+    #     West_df = pd.read_csv("data/westStandings.csv")
+    # if not West_df.empty:
+    #     message += "\n西區戰績\n"
+    #     for index, row in West_df.iterrows():
+    #         message += f"{index+1}. {row['球隊名稱']} {row['戰績']}\n"
+    # return message
+    get_standings()
+    message = ""
     East_df = pd.read_csv("data/eastStandings.csv")
     if not East_df.empty:
         message += "東區戰績\n"
         for index, row in East_df.iterrows():
-            message += f"{index+1}. {row['球隊名稱']} {row['戰績']}\n"
+            rank = f"{index+1}.".ljust(3)  # 將排名左對齊並填充空格至長度3
+            team = row["球隊名稱"].ljust(23)  # 將球隊名稱左對齊並填充空格至長度20
+            record = row["戰績"]  # 戰績保持原樣
+            message += f"{rank} {team} {record}\n"
         West_df = pd.read_csv("data/westStandings.csv")
     if not West_df.empty:
-        message += "西區戰績\n"
+        message += "\n西區戰績\n"
         for index, row in West_df.iterrows():
-            message += f"{index+1}. {row['球隊名稱']} {row['戰績']}\n"
+            rank = f"{index+1}.".ljust(3)  # 將排名左對齊並填充空格至長度3
+            team = row["球隊名稱"].ljust(23)  # 將球隊名稱左對齊並填充空格至長度20
+            record = row["戰績"]  # 戰績保持原樣
+            message += f"{rank} {team} {record}\n"
     return message
+
+
+# print(handle_standings_request())
