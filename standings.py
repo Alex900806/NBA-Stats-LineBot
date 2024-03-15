@@ -25,11 +25,6 @@ def get_standings():
                 + (str(standings[14])[1:])
                 + ")"
             )
-            teamInfo["最近10場"] = standings[19]
-            if standings[35] > 0:
-                teamInfo["近期狀態"] = "W" + str(standings[35])
-            else:
-                teamInfo["近期狀態"] = "L" + str(standings[35])[1:]
             eastStandings.append(teamInfo)
 
         elif standings[5] == "West":
@@ -42,11 +37,6 @@ def get_standings():
                 + (str(standings[14])[1:])
                 + ")"
             )
-            teamInfo["最近10場"] = standings[19]
-            if standings[35] > 0:
-                teamInfo["近期狀態"] = "W" + str(standings[35])
-            else:
-                teamInfo["近期狀態"] = "L" + str(standings[35])[1:]
             westStandings.append(teamInfo)
 
     eastStandings_DF = pd.DataFrame(eastStandings).sort_values("戰績", ascending=False)
@@ -55,32 +45,19 @@ def get_standings():
     westStandings_DF.to_csv("data/westStandings.csv", index=False)
 
 
-# def get_standings_async():
-#     global state
-#     standings = get_standings()
-#     with state_lock:
-#         state = standings
-#         return state
+def get_standings_async():
+    global state
+    standings = get_standings()
+    with state_lock:
+        state = standings
+        return state
 
 
 def handle_standings_request():
-    # global state
-    # t = threading.Thread(target=get_standings_async)
-    # t.start()
-    # t.join(timeout=10)  # 等待子執行緒完成，最多等待10秒
-    # message = ""
-    # East_df = pd.read_csv("data/eastStandings.csv")
-    # if not East_df.empty:
-    #     message += "東區戰績\n"
-    #     for index, row in East_df.iterrows():
-    #         message += f"{index+1}. {row['球隊名稱']} {row['戰績']}\n"
-    #     West_df = pd.read_csv("data/westStandings.csv")
-    # if not West_df.empty:
-    #     message += "\n西區戰績\n"
-    #     for index, row in West_df.iterrows():
-    #         message += f"{index+1}. {row['球隊名稱']} {row['戰績']}\n"
-    # return message
-    get_standings()
+    global state
+    t = threading.Thread(target=get_standings_async)
+    t.start()
+    t.join(timeout=10)  # 等待子執行緒完成，最多等待10秒
     message = ""
     East_df = pd.read_csv("data/eastStandings.csv")
     if not East_df.empty:
