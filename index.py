@@ -7,7 +7,7 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage
 # 本專案需要的套件
 from findBestPlayer import get_nba_player_stats
 from standings import handle_standings_request
-from visualization import get_shot_picture, handle_get_shot_picture_async
+from visualization import get_shot_picture
 from upload import upload
 import settings
 import pandas as pd
@@ -48,11 +48,11 @@ def handle_message(event):
 
     elif textSendByUser[0:3] == "可視化":
         playerName = textSendByUser[4:]
-        filePath = handle_get_shot_picture_async(playerName)
+        # filePath = get_shot_picture(playerName)
 
         # if filePath == "ERROR":
         #     message = "找不到此球員的數據資料"
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=filePath))
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=playerName))
         # else:
         # link = upload(filePath)
         # # 建立 ImageSendMessage 物件，將圖片發送給用戶
