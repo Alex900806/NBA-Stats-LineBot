@@ -13,6 +13,9 @@ import settings
 import pandas as pd
 import os
 
+import asyncio
+from test import main
+
 # 創建 Flask 應用程式
 app = Flask(__name__)
 
@@ -48,11 +51,14 @@ def handle_message(event):
 
     elif textSendByUser[0:3] == "可視化":
         playerName = textSendByUser[4:]
-        filePath = get_shot_picture(playerName)
+        # 運行 main 函數並取得回傳結果
+        message = asyncio.run(main(playerName))
+        # 回覆用戶訊息
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
         # if filePath == "ERROR":
         #     message = "找不到此球員的數據資料"
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=filePath))
+        # line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
         # else:
         # link = upload(filePath)
         # # 建立 ImageSendMessage 物件，將圖片發送給用戶
