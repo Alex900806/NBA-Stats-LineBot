@@ -31,7 +31,7 @@ def get_player_info(playerName):
         return "Unknown Player"
 
 
-def get_shot_picture(playerName):
+def get_shot_picture_async(playerName):
     playerInfo = get_player_info(playerName)
     if playerInfo == "Unknown Player":
         return "ERROR"
@@ -44,6 +44,21 @@ def get_shot_picture(playerName):
         chart2.savefig(file_path)
         plt.close(chart2)
         return file_path
+
+
+def handle_get_shot_picture(playerName, event):
+    t = threading.Thread(target=handle_get_shot_picture_async, args=(playerName, event))
+    t.start()
+    t.join(timeout=5)
+
+
+def handle_get_shot_picture_async(playerName):
+    file_path = get_shot_picture_async(playerName)
+    if file_path == "ERROR":
+        message = "找不到此球員的數據資料"
+    else:
+        message = file_path
+    return message
 
 
 # 測試用
