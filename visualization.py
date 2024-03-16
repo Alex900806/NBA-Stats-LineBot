@@ -2,7 +2,6 @@ from nba_api.stats.endpoints import playercareerstats
 from nba_api.stats.static import players
 from shot import shot_chart, get_shot_data
 import matplotlib.pyplot as plt
-import time
 
 
 # 2 sec
@@ -36,7 +35,6 @@ def get_player_info(playerName):
 # 3 sec
 def get_shot_picture(playerName):
     playerInfo = get_player_info(playerName)
-    time.sleep(2)
     if playerInfo == "Unknown Player":
         return "ERROR"
     else:
