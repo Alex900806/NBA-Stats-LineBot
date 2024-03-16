@@ -2,8 +2,10 @@ from nba_api.stats.endpoints import playercareerstats
 from nba_api.stats.static import players
 from shot import shot_chart, get_shot_data
 import matplotlib.pyplot as plt
+import time
 
 
+# 2 sec
 def get_player_info(playerName):
     playerId = None
     for item in players.get_players():
@@ -18,11 +20,11 @@ def get_player_info(playerName):
         currentSeason = playerCarrerStats_dict["resultSets"][0]["rowSet"][-1]
         playerStats = [
             playerId,  # 球員Id
-            currentSeason[26],  # 得分
-            currentSeason[21],  # 助攻
-            currentSeason[20],  # 籃板
-            currentSeason[8],  # 上場時間
-            currentSeason[24],  # 失誤
+            # currentSeason[26],  # 得分
+            # currentSeason[21],  # 助攻
+            # currentSeason[20],  # 籃板
+            # currentSeason[8],  # 上場時間
+            # currentSeason[24],  # 失誤
             currentSeason[1],  # seasonId
             currentSeason[3],  # teamId
         ]
@@ -31,14 +33,16 @@ def get_player_info(playerName):
         return "Unknown Player"
 
 
+# 3 sec
 def get_shot_picture(playerName):
     playerInfo = get_player_info(playerName)
+    time.sleep(2)
     if playerInfo == "Unknown Player":
         return "ERROR"
     else:
-        shot_data = get_shot_data(playerInfo[0], playerInfo[7], playerInfo[6])
+        shot_data = get_shot_data(playerInfo[0], playerInfo[2], playerInfo[1])
         shot_data.head()
-        chart2 = shot_chart(shot_data, playerName, playerInfo[6], RA=False)
+        chart2 = shot_chart(shot_data, playerName, playerInfo[1], RA=False)
         filename = f"{playerName}_shot_chart.png"
         file_path = f"shot_data/{filename}"
         chart2.savefig(file_path)
@@ -47,6 +51,7 @@ def get_shot_picture(playerName):
 
 
 # 測試用
+# res = get_player_info("Kawhi Leonard")
 # res = get_shot_picture("Kawhi Leonard")
 # print(res)
 # print(type(res)) str

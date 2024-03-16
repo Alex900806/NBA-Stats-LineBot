@@ -12,6 +12,7 @@ from upload import upload
 import settings
 import pandas as pd
 import os
+import time
 
 # 創建 Flask 應用程式
 app = Flask(__name__)
@@ -48,11 +49,12 @@ def handle_message(event):
 
     elif textSendByUser[0:3] == "可視化":
         playerName = textSendByUser[4:]
-        # filePath = get_shot_picture(playerName)
+        filePath = get_shot_picture(playerName)
+        time.sleep(4)
 
         # if filePath == "ERROR":
         #     message = "找不到此球員的數據資料"
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=playerName))
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=filePath))
         # else:
         # link = upload(filePath)
         # # 建立 ImageSendMessage 物件，將圖片發送給用戶
