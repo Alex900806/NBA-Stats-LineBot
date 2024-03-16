@@ -49,17 +49,17 @@ def handle_standings_request():
     if not East_df.empty:
         message += "------------東區戰績------------\n"
         for index, row in East_df.iterrows():
-            rank = f"{index+1}.".ljust(3)
+            rank = f"{index+1}.".ljust(2)
             team = row["球隊名稱"]
-            record = row["戰績"]  # 戰績保持原樣
+            record = row["戰績"]
             message += f"{rank} {team} {record}\n"
         West_df = pd.read_csv("data/westStandings.csv")
     if not West_df.empty:
         message += "\n------------西區戰績------------\n"
         for index, row in West_df.iterrows():
-            rank = f"{index+1}.".ljust(3)  # 將排名左對齊並填充空格至長度3
+            rank = f"{index+1}.".ljust(2)
             team = row["球隊名稱"]
-            record = row["戰績"]  # 戰績保持原樣
+            record = row["戰績"]
             message += f"{rank} {team} {record}\n"
     message += "\n       (數據處理稍慢 請見諒 ><)"
     return message
