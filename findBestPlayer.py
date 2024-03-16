@@ -112,5 +112,6 @@ def get_nba_player_stats(sort_columns=["得分"]):
 
         return "Completed"
 
+    # 比賽沒打完
     else:
         return "Failed"
