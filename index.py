@@ -50,18 +50,18 @@ def handle_message(event):
         playerName = textSendByUser[4:]
         filePath = get_shot_picture(playerName)
 
-        if filePath == "ERROR":
-            message = "找不到此球員的數據資料"
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
-        else:
-            link = upload(filePath)
-            # 建立 ImageSendMessage 物件，將圖片發送給用戶
-            image_message = ImageSendMessage(
-                original_content_url=link,
-                preview_image_url=link,
-            )
-            # 使用 Line Bot API 傳送圖片訊息給用戶
-            line_bot_api.reply_message(event.reply_token, image_message)
+        # if filePath == "ERROR":
+        #     message = "找不到此球員的數據資料"
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=filePath))
+        # else:
+        # link = upload(filePath)
+        # # 建立 ImageSendMessage 物件，將圖片發送給用戶
+        # image_message = ImageSendMessage(
+        #     original_content_url=link,
+        #     preview_image_url=link,
+        # )
+        # 使用 Line Bot API 傳送圖片訊息給用戶
+        # line_bot_api.reply_message(event.reply_token, image_message)
 
     else:
         sortRule = textSendByUser.split(" ")  # 獲取排序規則
