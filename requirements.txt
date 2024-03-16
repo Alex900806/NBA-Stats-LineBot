@@ -3,3 +3,5 @@ flask
 nba_api
 pandas
 python-dotenv
+matplotlib
+imgurpython
