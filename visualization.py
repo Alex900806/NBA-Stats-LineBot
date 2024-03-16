@@ -2,6 +2,7 @@ from nba_api.stats.endpoints import playercareerstats
 from nba_api.stats.static import players
 from shot import shot_chart, get_shot_data
 import matplotlib.pyplot as plt
+import threading
 
 
 def get_player_info(playerName):
