@@ -1,11 +1,8 @@
 import asyncio
 from nba_api.stats.endpoints import playercareerstats
 from nba_api.stats.static import players
-
 from shot import shot_chart, get_shot_data
 import matplotlib.pyplot as plt
-
-# from test2 import shot_chart, get_shot_data
 
 
 async def get_player_info(playerName):
@@ -35,7 +32,7 @@ async def get_shot_picture(playerName):
     if playerInfo == "Unknown Player":
         return "ERROR"
     else:
-        shot_data = get_shot_data(playerInfo[0], playerInfo[2], playerInfo[1])
+        shot_data = await get_shot_data(playerInfo[0], playerInfo[2], playerInfo[1])
         shot_data.head()
         chart2 = shot_chart(shot_data, playerName, playerInfo[1], RA=False)
         filename = f"{playerName}_shot_chart.png"

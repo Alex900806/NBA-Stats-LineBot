@@ -95,11 +95,29 @@ def create_court(ax: mpl.axes, color="white"):
     return ax
 
 
-def get_shot_data(id: int, team_ids: int, seasons: str):
-    from nba_api.stats.endpoints import shotchartdetail
+# def get_shot_data(id: int, team_ids: int, seasons: str):
+#     from nba_api.stats.endpoints import shotchartdetail
 
+#     df = pd.DataFrame()
+#     shot_data = shotchartdetail.ShotChartDetail(
+#         team_id=team_ids,
+#         player_id=id,
+#         context_measure_simple="PTS",
+#         season_nullable=seasons,
+#     )
+#     df = pd.concat([df, shot_data.get_data_frames()[0]])
+
+#     return df
+import asyncio
+from nba_api.stats.endpoints import shotchartdetail
+
+
+async def get_shot_data(id: int, team_ids: int, seasons: str):
     df = pd.DataFrame()
-    shot_data = shotchartdetail.ShotChartDetail(
+
+    # 在執行緒池中執行非同步操作
+    shot_data = await asyncio.to_thread(
+        shotchartdetail.ShotChartDetail,
         team_id=team_ids,
         player_id=id,
         context_measure_simple="PTS",
