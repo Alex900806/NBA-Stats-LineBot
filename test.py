@@ -32,8 +32,8 @@ async def get_shot_picture(playerName):
     if playerInfo == "Unknown Player":
         return "ERROR"
     else:
+        # 等待 get_shot_data 函數完成，並獲得結果
         shot_data = await get_shot_data(playerInfo[0], playerInfo[2], playerInfo[1])
-        shot_data.head()
         chart2 = shot_chart(shot_data, playerName, playerInfo[1], RA=False)
         filename = f"{playerName}_shot_chart.png"
         file_path = f"shot_data/{filename}"
