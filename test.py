@@ -1,8 +1,11 @@
 import asyncio
 from nba_api.stats.endpoints import playercareerstats
 from nba_api.stats.static import players
+
 from shot import shot_chart, get_shot_data
 import matplotlib.pyplot as plt
+
+# from test2 import shot_chart, get_shot_data
 
 
 async def get_player_info(playerName):
@@ -42,12 +45,4 @@ async def get_shot_picture(playerName):
         return file_path
 
 
-async def handle_visualization_request(playerName):
-    file_path = await get_shot_picture(playerName)
-    if file_path == "ERROR":
-        return "找不到此球員的數據資料"
-    else:
-        return file_path
-
-
-# 在其他地方調用 handle_visualization_request 並處理回傳結果
+# print(asyncio.run(get_shot_picture("Kawhi Leonard")))

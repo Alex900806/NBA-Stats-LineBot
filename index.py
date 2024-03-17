@@ -7,15 +7,15 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage
 # 本專案需要的套件
 from findBestPlayer import get_nba_player_stats
 from standings import handle_standings_request
-from visualization import get_shot_picture
+
+# from visualization import get_shot_picture
 from upload import upload
 import settings
 import pandas as pd
 import os
 
 import asyncio
-
-from test import handle_visualization_request
+from test import get_shot_picture
 
 # 創建 Flask 應用程式
 app = Flask(__name__)
@@ -52,7 +52,7 @@ def handle_message(event):
 
     elif textSendByUser[0:3] == "可視化":
         playerName = textSendByUser[4:]
-        message = asyncio.run(handle_visualization_request(playerName))
+        message = asyncio.run(get_shot_picture(playerName))
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
         # if filePath == "ERROR":
