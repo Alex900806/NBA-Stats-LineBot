@@ -6,7 +6,7 @@ import pandas as pd
 def shot_chart(
     df: pd.DataFrame,
     name: str,
-    season=None,
+    season=True,
     RA=True,
     extent=(-250, 250, 422.5, -47.5),
     gridsize=25,
@@ -23,7 +23,6 @@ def shot_chart(
         plt.text(-240, 430, f"{name}", fontsize=21, color="black")
         season = f"NBA {season[0][:4]}-{season[-1][-2:]}"
         plt.text(-250, -20, season, fontsize=8, color="black")
-        plt.text(110, -20, "@codegym_tech", fontsize=8, color="black")
     else:
         cond = ~(
             (-45 < df.LOC_X) & (df.LOC_X < 45) & (-40 < df.LOC_Y) & (df.LOC_Y < 45)
@@ -35,7 +34,6 @@ def shot_chart(
         plt.text(-240, 400, "(Remove Restricted Area)", fontsize=10, color="red")
         season = f"NBA {season[0][:4]}-{season[-1][-2:]}"
         plt.text(-250, -20, season, fontsize=8, color="black")
-        plt.text(110, -20, "@codegym_tech", fontsize=8, color="black")
 
     hexbin = ax.hexbin(
         x,
@@ -54,10 +52,10 @@ def shot_chart(
 
 
 def create_court(ax: mpl.axes, color="white"):
-    # Short corner 3PT lines
+    # 底角三分線
     ax.plot([-220, -220], [0, 140], linewidth=2, color=color)
     ax.plot([220, 220], [0, 140], linewidth=2, color=color)
-    # 3PT Arc
+    # 圓弧三分線（圓心、半徑、高度、起始角度、終點角度）
     ax.add_artist(
         mpl.patches.Arc(
             (0, 140),
@@ -70,26 +68,33 @@ def create_court(ax: mpl.axes, color="white"):
             lw=2,
         )
     )
-    # Lane and Key
+    # 禁區部分（框框）
     ax.plot([-80, -80], [0, 190], linewidth=2, color=color)
     ax.plot([80, 80], [0, 190], linewidth=2, color=color)
     ax.plot([-60, -60], [0, 190], linewidth=2, color=color)
     ax.plot([60, 60], [0, 190], linewidth=2, color=color)
     ax.plot([-80, 80], [190, 190], linewidth=2, color=color)
+
+    # 中距離圓弧
     ax.add_artist(
         mpl.patches.Circle((0, 190), 60, facecolor="none", edgecolor=color, lw=2)
     )
+
+    # 邊線
     ax.plot([-250, 250], [0, 0], linewidth=4, color="black")
-    # Rim
+
+    # 籃框
     ax.add_artist(
         mpl.patches.Circle((0, 60), 15, facecolor="none", edgecolor=color, lw=2)
     )
-    # Backboard
+    # 籃板
     ax.plot([-30, 30], [40, 40], linewidth=2, color=color)
-    # Remove ticks
+
+    # 省略刻度
     ax.set_xticks([])
     ax.set_yticks([])
-    # Set axis limits
+
+    # 軸的邊界
     ax.set_xlim(-250, 250)
     ax.set_ylim(0, 470)
     return ax
@@ -108,3 +113,7 @@ def get_shot_data(id: int, team_ids: int, seasons: str):
     df = pd.concat([df, shot_data.get_data_frames()[0]])
 
     return df
+
+
+res = get_shot_data(202695, 1610612746, "2023-24")
+print(res)
