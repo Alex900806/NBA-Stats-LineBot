@@ -29,6 +29,6 @@ def upload(local_img_file):
 
 
 # 測試用
-# link = upload("shot_data/test.png")
+# link = upload("shot_data/Kawhi Leonard_shot_chart.png")
 # print(link)
 # print(type(link)) string

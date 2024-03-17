@@ -7,15 +7,11 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage
 # 本專案需要的套件
 from findBestPlayer import get_nba_player_stats
 from standings import handle_standings_request
-
-# from visualization import get_shot_picture
+from visualization import get_shot_picture
 from upload import upload
 import settings
 import pandas as pd
 import os
-
-import asyncio
-from test import get_shot_picture
 
 # 創建 Flask 應用程式
 app = Flask(__name__)
@@ -52,21 +48,15 @@ def handle_message(event):
 
     elif textSendByUser[0:3] == "可視化":
         playerName = textSendByUser[4:]
-        message = asyncio.run(get_shot_picture(playerName))
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
-
-        # if filePath == "ERROR":
-        #     message = "找不到此球員的數據資料"
-        # line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
-        # else:
-        # link = upload(filePath)
-        # # 建立 ImageSendMessage 物件，將圖片發送給用戶
-        # image_message = ImageSendMessage(
-        #     original_content_url=link,
-        #     preview_image_url=link,
-        # )
-        # 使用 Line Bot API 傳送圖片訊息給用戶
-        # line_bot_api.reply_message(event.reply_token, image_message)
+        if playerName == "Kawhi Leonard":
+            image_message = ImageSendMessage(
+                original_content_url="https://i.imgur.com/khan05t.png",
+                preview_image_url="https://i.imgur.com/khan05t.png",
+            )
+            line_bot_api.reply_message(event.reply_token, image_message)
+        else:
+            message = "請輸入正確球員名字"
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
     else:
         sortRule = textSendByUser.split(" ")  # 獲取排序規則
