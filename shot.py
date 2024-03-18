@@ -115,5 +115,6 @@ def get_shot_data(id: int, team_ids: int, seasons: str):
     return df
 
 
-res = get_shot_data(202695, 1610612746, "2023-24")
-print(res)
+# # test
+# res = get_shot_data(202695, 1610612746, "2023-24")
+# print(res)
