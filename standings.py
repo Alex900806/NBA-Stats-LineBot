@@ -52,7 +52,7 @@ def handle_standings_request():
             rank = f"{index+1}.".ljust(2)
             team = row["球隊名稱"]
             record = row["戰績"]
-            message += f"{rank} {team} {record}\n"
+            message += f"{rank} {team} {record.rjust(6)}\n"
         West_df = pd.read_csv("data/westStandings.csv")
     if not West_df.empty:
         message += "\n------------西區戰績------------\n"
@@ -60,6 +60,9 @@ def handle_standings_request():
             rank = f"{index+1}.".ljust(2)
             team = row["球隊名稱"]
             record = row["戰績"]
-            message += f"{rank} {team} {record}\n"
+            message += f"{rank} {team} {record.rjust(6)}\n"
     message += "\n       (數據處理稍慢 請見諒 ><)"
     return message
+
+
+# print(handle_standings_request())
