@@ -7,11 +7,15 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSend
 # 本專案需要的套件
 from findBestPlayer import get_nba_player_stats
 from standings import handle_standings_request
-from visualization import get_shot_picture
-from upload import upload
+
+# from visualization import get_shot_picture
+# from upload import upload
 import settings
 import pandas as pd
 import os
+
+from asyncTest import *
+import asyncio
 
 # 創建 Flask 應用程式
 app = Flask(__name__)
@@ -35,7 +39,7 @@ def callback():
 
 
 @handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
+async def handle_message(event):
     textSendByUser = event.message.text  # 獲取使用者傳遞的訊息
 
     if textSendByUser == "使用指南":
@@ -47,16 +51,24 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
     elif textSendByUser[0:3] == "可視化":
+        # playerName = textSendByUser[4:]
+        # if playerName == "Kawhi Leonard":
+        #     image_message = ImageSendMessage(
+        #         original_content_url="https://i.imgur.com/khan05t.png",
+        #         preview_image_url="https://i.imgur.com/khan05t.png",
+        #     )
+        #     line_bot_api.reply_message(event.reply_token, image_message)
+        # else:
+        #     message = "請輸入正確球員名字"
+        #     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
+
         playerName = textSendByUser[4:]
-        if playerName == "Kawhi Leonard":
-            image_message = ImageSendMessage(
-                original_content_url="https://i.imgur.com/khan05t.png",
-                preview_image_url="https://i.imgur.com/khan05t.png",
-            )
-            line_bot_api.reply_message(event.reply_token, image_message)
-        else:
-            message = "請輸入正確球員名字"
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
+        link = await main(playerName)
+        image_message = ImageSendMessage(
+            original_content_url=link,
+            preview_image_url=link,
+        )
+        line_bot_api.reply_message(event.reply_token, image_message)
 
     else:
         sortRule = textSendByUser.split(" ")  # 獲取排序規則
