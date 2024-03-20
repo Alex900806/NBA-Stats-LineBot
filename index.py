@@ -39,7 +39,7 @@ def callback():
 
 
 @handler.add(MessageEvent, message=TextMessage)
-async def handle_message(event):
+def handle_message(event):
     textSendByUser = event.message.text  # 獲取使用者傳遞的訊息
 
     if textSendByUser == "使用指南":
@@ -63,7 +63,8 @@ async def handle_message(event):
         #     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
         playerName = textSendByUser[4:]
-        link = await main(playerName)
+        loop = asyncio.get_event_loop()
+        link = loop.run_until_complete(main(playerName))
 
         if link != "Failed":
             image_message = ImageSendMessage(
