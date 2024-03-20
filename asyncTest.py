@@ -193,8 +193,11 @@ async def upload(local_img_file):
 
 async def main(playerName):
     file_path = await get_shot_picture(playerName)
-    link = await upload(file_path)
-    return link
+    if file_path == "ERROR":
+        return "Failed"
+    else:
+        link = await upload(file_path)
+        return link
 
 
 # 測試

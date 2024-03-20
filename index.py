@@ -64,11 +64,16 @@ async def handle_message(event):
 
         playerName = textSendByUser[4:]
         link = await main(playerName)
-        image_message = ImageSendMessage(
-            original_content_url=link,
-            preview_image_url=link,
-        )
-        line_bot_api.reply_message(event.reply_token, image_message)
+
+        if link != "Failed":
+            image_message = ImageSendMessage(
+                original_content_url=link,
+                preview_image_url=link,
+            )
+            line_bot_api.reply_message(event.reply_token, image_message)
+        else:
+            message = "搜尋失敗 請重新輸入"
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
     else:
         sortRule = textSendByUser.split(" ")  # 獲取排序規則
@@ -115,4 +120,4 @@ async def handle_message(event):
 # main function
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 80))
-    app.run(host="0.0.0.0", port=port)
+    asyncio.run(app.run(host="0.0.0.0", port=port))
