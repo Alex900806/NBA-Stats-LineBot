@@ -51,30 +51,30 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
     elif textSendByUser[0:3] == "可視化":
-        # playerName = textSendByUser[4:]
-        # if playerName == "Kawhi Leonard":
-        #     image_message = ImageSendMessage(
-        #         original_content_url="https://i.imgur.com/khan05t.png",
-        #         preview_image_url="https://i.imgur.com/khan05t.png",
-        #     )
-        #     line_bot_api.reply_message(event.reply_token, image_message)
-        # else:
-        #     message = "請輸入正確球員名字"
-        #     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
-
         playerName = textSendByUser[4:]
-        loop = asyncio.get_event_loop()
-        link = loop.run_until_complete(main(playerName))
-
-        if link != "Failed":
+        if playerName == "Stephen Curry":
             image_message = ImageSendMessage(
-                original_content_url=link,
-                preview_image_url=link,
+                original_content_url="https://imgur.com/FyD7j2O.png",
+                preview_image_url="https://imgur.com/FyD7j2O.png",
             )
             line_bot_api.reply_message(event.reply_token, image_message)
         else:
-            message = "搜尋失敗 請重新輸入"
+            message = "請輸入正確球員名字"
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
+
+        # playerName = textSendByUser[4:]
+        # loop = asyncio.get_event_loop()
+        # link = loop.run_until_complete(main(playerName))
+
+        # if link != "Failed":
+        #     image_message = ImageSendMessage(
+        #         original_content_url=link,
+        #         preview_image_url=link,
+        #     )
+        #     line_bot_api.reply_message(event.reply_token, image_message)
+        # else:
+        #     message = "搜尋失敗 請重新輸入"
+        #     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
     else:
         sortRule = textSendByUser.split(" ")  # 獲取排序規則
