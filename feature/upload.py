@@ -1,5 +1,5 @@
 from imgurpython import ImgurClient
-import settings
+import feature.settings as settings
 
 
 def upload_picture(client_data, album, img_path, name="shot-chart", title="shot-chart"):

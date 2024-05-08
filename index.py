@@ -5,16 +5,16 @@ from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSendMessage
 
 # 本專案需要的套件
-from findBestPlayer import get_nba_player_stats
-from standings import handle_standings_request
+from feature.findBestPlayer import get_nba_player_stats
+from feature.standings import handle_standings_request
 
 # from visualization import get_shot_picture
 # from upload import upload
-import settings
+import feature.settings as settings
 import pandas as pd
 import os
 
-from asyncTest import *
+from vscodeignore.asyncTest import *
 import asyncio
 
 # 創建 Flask 應用程式
