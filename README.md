@@ -33,7 +33,8 @@ Python, LineBot, Heroku
 - Version 1.0：正式上線
 - Version 1.1：解決 Line Token Hidden 問題
 - Version 1.2：新增「聯盟戰績」功能
-- Version 1.3：測試「球員投籃熱度圖片」功能（未來將持續開發客製化球員功能，目前只能顯示 Stephen Curry 的圖片）
+- Version 1.3：測試「球員投籃熱度圖片」功能（未來將持續開發客製化球員功能）
+- Version 2.0：本專案進行重構，將核心功能與工具區分，去除重複程式碼
 
 ## 檢討部分
 

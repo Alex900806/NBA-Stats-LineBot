@@ -1,11 +1,27 @@
 from nba_api.stats.endpoints import playercareerstats
 from nba_api.stats.static import players
-from feature.shot import shot_chart, get_shot_data
 import matplotlib.pyplot as plt
 
+from utils.shotChartTools import drawShotChart, getShotData
 
-# 2 sec
-def get_player_info(playerName):
+
+
+def getShotChartPath(player_name):
+    playerInfo = getPlayerInfo(player_name)
+    if playerInfo == "Unknown Player":
+        return "ERROR"
+    else:
+        shot_data = getShotData(playerInfo[0], playerInfo[2], playerInfo[1])
+        shot_data.head()
+        chart2 = drawShotChart(shot_data, player_name, playerInfo[1], RA=False)
+        filename = f"{"_".join(player_name.split(" "))}_shot_chart.png"
+        file_path = f"shot_data/{filename}"
+        chart2.savefig(file_path)
+        plt.close(chart2)
+        
+        return file_path
+
+def getPlayerInfo(playerName):
     playerId = None
     for item in players.get_players():
         if item["full_name"] == playerName:
@@ -31,25 +47,7 @@ def get_player_info(playerName):
     else:
         return "Unknown Player"
 
-
-# 3 sec
-def get_shot_picture(playerName):
-    playerInfo = get_player_info(playerName)
-    if playerInfo == "Unknown Player":
-        return "ERROR"
-    else:
-        shot_data = get_shot_data(playerInfo[0], playerInfo[2], playerInfo[1])
-        shot_data.head()
-        chart2 = shot_chart(shot_data, playerName, playerInfo[1], RA=False)
-        filename = f"{playerName}_shot_chart.png"
-        file_path = f"shot_data/{filename}"
-        chart2.savefig(file_path)
-        plt.close(chart2)
-        return file_path
-
-
-# 測試用
-# res = get_player_info("Kawhi Leonard")
-# res = get_shot_picture("Kawhi Leonard")
-# print(res)
-# print(type(res)) str
+# test
+if __name__ == "__main__":
+    res = getShotChartPath("Kawhi Leonard")
+    print(res)

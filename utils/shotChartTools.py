@@ -1,14 +1,29 @@
+from nba_api.stats.endpoints import shotchartdetail
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import pandas as pd
 
 
-def shot_chart(
+def getShotData(id: int, team_ids: int, seasons: str):
+
+    df = pd.DataFrame()
+    shot_data = shotchartdetail.ShotChartDetail(
+        team_id=team_ids,
+        player_id=id,
+        context_measure_simple="PTS",
+        season_nullable=seasons,
+    )
+    df = pd.concat([df, shot_data.get_data_frames()[0]])
+
+    return df
+
+
+def drawShotChart(
     df: pd.DataFrame,
     name: str,
     season=True,
     RA=True,
-    extent=(-250, 250, 422.5, -47.5),
+    extent=(-250, 250, -47.5, 422.5),  # 修改 extent 使 ymin < ymax
     gridsize=25,
     cmap="Reds",
 ):
@@ -40,18 +55,17 @@ def shot_chart(
         y,
         cmap=cmap,
         bins="log",
-        gridsize=25,
+        gridsize=gridsize,
         mincnt=2,
-        extent=(-250, 250, 422.5, -47.5),
+        extent=extent,  # 確保 ymin 小於 ymax
     )
 
-    # Draw court
-    ax = create_court(ax, "black")
+    ax = drawCourt(ax, "black")
 
     return fig
 
 
-def create_court(ax: mpl.axes, color="white"):
+def drawCourt(ax: mpl.axes, color="white"):
     # 底角三分線
     ax.plot([-220, -220], [0, 140], linewidth=2, color=color)
     ax.plot([220, 220], [0, 140], linewidth=2, color=color)
@@ -98,23 +112,3 @@ def create_court(ax: mpl.axes, color="white"):
     ax.set_xlim(-250, 250)
     ax.set_ylim(0, 470)
     return ax
-
-
-def get_shot_data(id: int, team_ids: int, seasons: str):
-    from nba_api.stats.endpoints import shotchartdetail
-
-    df = pd.DataFrame()
-    shot_data = shotchartdetail.ShotChartDetail(
-        team_id=team_ids,
-        player_id=id,
-        context_measure_simple="PTS",
-        season_nullable=seasons,
-    )
-    df = pd.concat([df, shot_data.get_data_frames()[0]])
-
-    return df
-
-
-# # test
-# res = get_shot_data(202695, 1610612746, "2023-24")
-# print(res)
