@@ -36,12 +36,12 @@ def getLeagueStandings():
 
 
 def formatMessage(df, conference_name):
-    message = f"-----{conference_name} Conference-----\n"
+    message = f"---{conference_name} Conference---\n"
     for index, row in df.iterrows():
         rank = f"{index+1}.".ljust(3)
-        team = row["球隊名稱"]
-        record = row["戰績"]
-        message += f"{rank}{team}  {record}\n"
+        team = row["球隊名稱"].ljust(3)
+        record = row["戰績"].rjust(5)
+        message += f"{rank} {team}  {record}\n"
     message += "\n"
 
     return message
