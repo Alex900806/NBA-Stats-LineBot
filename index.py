@@ -5,12 +5,16 @@ from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSendMessage
 
 # 本專案需要的套件
-import functions.getPlayersStatistics as getPlayersStatistics
-import functions.getLeagueStandings as getLeagueStandings
-import functions.getGuideMessage as getGuideMessage
+from functions.getGuideMessage import getGuideMessage
+from functions.getLeagueStandings import getLeagueStandings
+from functions.getPlayersStatistics import getPlayersStatistics
 import utils.config as config
 import pandas as pd
 import os
+import warnings
+
+# 忽略特定的棄用警告
+warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 app = Flask(__name__)
 
@@ -113,5 +117,5 @@ def handle_message(event):
 
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 80))
+    port = int(os.environ.get("PORT", 3000))
     app.run(host="0.0.0.0", port=port)
