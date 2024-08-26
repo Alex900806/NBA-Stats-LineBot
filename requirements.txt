@@ -1,7 +1,20 @@
+# LINE Bot SDK，用於開發 LINE 機器人
 line-bot-sdk
-flask
+
+# Flask，用於建立 Web 應用的輕量級框架
+Flask
+
+# nba_api，用於訪問 NBA 的數據 API
 nba_api
+
+# pandas，用於資料處理與分析
 pandas
+
+# python-dotenv，用於從 .env 檔案中載入環境變數
 python-dotenv
+
+# matplotlib，用於資料視覺化繪圖
 matplotlib
+
+# imgurpython，用於與 Imgur API 互動，上傳與管理圖片
 imgurpython
