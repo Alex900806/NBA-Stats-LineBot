@@ -1,6 +1,6 @@
 {
   "builds": [{ "src": "index.py", "use": "@vercel/python" }],
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.py" }]
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.py" }],
   "env": {
     "PYTHON_VERSION": "3.12.4"
   }
