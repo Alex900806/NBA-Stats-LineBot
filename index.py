@@ -5,13 +5,13 @@ from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSendMessage
 
 # 本專案需要的套件
+import os
+import warnings
+import pandas as pd
 from functions.getGuideMessage import getGuideMessage
 from functions.getLeagueStandings import getLeagueStandings
 from functions.getPlayersStatistics import getPlayersStatistics
 import utils.config as config
-import pandas as pd
-import os
-import warnings
 
 # 忽略特定的棄用警告
 warnings.filterwarnings("ignore", category=DeprecationWarning)
