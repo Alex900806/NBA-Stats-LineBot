@@ -1,6 +1,6 @@
 # NBA Stats + LineBot
 
-因為自己有在玩 NBA Fantasy Basketball，所以會有需要每天查詢當日表現較好球員的需求，因此我就思考或許能「自動化」這件事，降低自己手動查詢的時間，也透過和 LineBot 串接來提升可用性。
+鑑於 Fantasy Basketball 需要每天查詢當日表現較好球員的需求，我決定「自動化」這個過程，減少手動查詢的時間，也透過和 LineBot 串接來提升可用性。
 
 ## 功能
 
@@ -11,18 +11,18 @@
 
 ## 使用技術
 
-Python, LineBot, Heroku
+Python, Pandas, Matplotlib, LineBot
 
 ## 學習成果
 
 - 學習使用 Python(Pandas) 來進行數據分析，將需要的資訊歸納出來
 - 學習使用 Python(Matplotlib) 來進行數據的可視化
-- 學習將此專案部署在 Heroku，以持續運作此專案
-- 學習將專案想法和 LineBot 結合
+- 學習將專案部署到 Render，使其持續運作、自動更新數據
+- 學習將專案想法邏輯和 LineBot 結合，提升可用性
 
 ## 實際頁面
 
-- 加入我吧！ @458lcjbg（目前賽季結束，關閉中）
+- 加入我吧！ @458lcjbg（目前為免費方案，可能有使用限制）
 
 ## 球員投籃熱度圖片（範例）
 
@@ -35,6 +35,7 @@ Python, LineBot, Heroku
 - Version 1.2：新增「聯盟戰績」功能
 - Version 1.3：測試「球員投籃熱度圖片」功能（未來將持續開發客製化球員功能）
 - Version 2.0：本專案進行重構，將核心功能與工具區分，去除重複程式碼
+- Version 2.1：將專案從 Heroku 轉移至 Render，並整理程式碼
 
 ## 檢討部分
 
