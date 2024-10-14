@@ -1,6 +1,5 @@
 .env
 .vscode
-.vercel
 
 venv
 data
