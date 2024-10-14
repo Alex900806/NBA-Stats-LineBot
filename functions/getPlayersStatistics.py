@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 from nba_api.live.nba.endpoints import scoreboard, boxscore
 
@@ -16,6 +17,7 @@ def getPlayersStatistics(sort_columns=["得分"]):
     if all_games_started:
         try:
             statistics = getGameStatistics(game_data, sort_columns)
+            os.makedirs("data", exist_ok=True)
             statistics.to_csv("data/playersStatistics.csv", index=False)
             return "Successful"
 
