@@ -57,8 +57,6 @@ def callback():
 def handle_message(event):
     textSendByUser = event.message.text  # 獲取使用者傳遞的訊息
     user_id = event.source.user_id  # 獲取使用者識別碼
-
-    # 調用思考動畫功能
     send_loading_animation(user_id)
 
     if textSendByUser == "使用指南":
