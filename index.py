@@ -7,6 +7,7 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSend
 # 本專案需要的套件
 import os
 import warnings
+import requests
 import pandas as pd
 from functions.getGuideMessage import getGuideMessage
 from functions.getLeagueStandings import getLeagueStandings
@@ -21,6 +22,22 @@ app = Flask(__name__)
 # 連接 LineBot 的兩個金鑰
 line_bot_api = LineBotApi(config.LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(config.LINE_CHANNEL_SECRET)
+
+
+# Loading Animation
+def send_loading_animation(user_id):
+    url = "https://api.line.me/v2/bot/chat/loading/start"
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {config.LINE_CHANNEL_ACCESS_TOKEN}",
+    }
+    data = {"chatId": user_id, "loadingSeconds": 60}
+    response = requests.post(url, json=data, headers=headers)
+
+    if response.status_code == 202:
+        print("載入動畫顯示成功")
+    else:
+        print(f"載入動畫失敗: {response.status_code}, {response.text}")
 
 
 # 定義路由 "/callback" 來處理 LINE Messaging API 的 POST 請求
@@ -39,6 +56,10 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     textSendByUser = event.message.text  # 獲取使用者傳遞的訊息
+    user_id = event.source.user_id  # 獲取使用者識別碼
+
+    # 調用思考動畫功能
+    send_loading_animation(user_id)
 
     if textSendByUser == "使用指南":
         message = getGuideMessage()
