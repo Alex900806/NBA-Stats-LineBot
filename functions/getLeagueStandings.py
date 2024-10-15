@@ -1,6 +1,7 @@
 import os
 import sys
 import pandas as pd
+from requests.exceptions import ReadTimeout
 from nba_api.stats.endpoints import leaguestandings
 
 # 將項目根目錄添加到 sys.path，不然找不到 utils
@@ -16,7 +17,8 @@ def getLeagueStandings():
     except ReadTimeout:
         return "伺服器忙線中 請稍候再試"
     except Exception as e:
-        return f"發生錯誤：{str(e)}"
+        print(f"發生錯誤：{str(e)}")
+        return "發生未知錯誤 請稍候再試"
 
     standings_data = {"East": [], "West": []}
 
