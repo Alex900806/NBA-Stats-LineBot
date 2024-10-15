@@ -11,7 +11,13 @@ from utils.getTeamAbbreviationById import idToNameTable
 
 
 def getLeagueStandings():
-    standings = leaguestandings.LeagueStandings().get_dict()
+    try:
+        standings = leaguestandings.LeagueStandings(timeout=60).get_dict()
+    except ReadTimeout:
+        return "伺服器忙線中 請稍候再試"
+    except Exception as e:
+        return f"發生錯誤：{str(e)}"
+
     standings_data = {"East": [], "West": []}
 
     for standings in standings["resultSets"][0]["rowSet"]:
