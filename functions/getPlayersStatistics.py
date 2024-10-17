@@ -19,12 +19,16 @@ def getPlayersStatistics(sort_columns=["得分"]):
             statistics = getGameStatistics(game_data, sort_columns)
             os.makedirs("data", exist_ok=True)
             statistics.to_csv("data/playersStatistics.csv", index=False)
+
+            print("getPlayersStatistics() 執行完成")
             return "Successful"
 
         except:
+            print("getPlayersStatistics() 數據處理錯誤")
             return "數據處理錯誤 請稍候再試"
 
     elif not all_games_started:
+        print("getPlayersStatistics() 尚有比賽仍未開打")
         return "尚有比賽仍未開打 請稍候再試"
 
 

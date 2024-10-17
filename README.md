@@ -26,7 +26,7 @@ Python, Pandas, Matplotlib, LineBot
 
 ## 球員投籃熱度圖片（範例）
 
-![image](https://github.com/Alex900806/NBA-Stats-LineBot/blob/main/shot_data/Kawhi_Leonard_shot_chart.png)
+![image](https://github.com/Alex900806/NBA-Stats-LineBot/blob/main/demo/Kawhi_Leonard_shot_chart_demo.png)
 
 ## 版本更新目錄
 
@@ -37,6 +37,7 @@ Python, Pandas, Matplotlib, LineBot
 - Version 2.0：本專案進行重構，將核心功能與工具區分，去除重複程式碼
 - Version 2.1：將專案從 Heroku 轉移至 Render，並整理程式碼
 - Version 2.2：導入 Loading Animation 功能，最久持續 60 秒
+- Version 2.3：新增客製化「球員投籃熱度圖片」功能（輸入投籃圖「球員名稱」），新增 Log 用於紀錄執行過程
 
 ## 檢討部分
 

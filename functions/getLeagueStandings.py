@@ -15,8 +15,10 @@ def getLeagueStandings():
     try:
         standings = leaguestandings.LeagueStandings(timeout=60).get_dict()
     except ReadTimeout:
+        print("getLeagueStandings() 伺服器忙線中")
         return "伺服器忙線中 請稍候再試"
     except Exception as e:
+        print("getLeagueStandings() 發生未知錯誤")
         print(f"發生錯誤：{str(e)}")
         return "發生未知錯誤 請稍候再試"
 
@@ -40,6 +42,7 @@ def getLeagueStandings():
             df = pd.DataFrame(data).sort_values("戰績", ascending=False)
             message += formatMessage(df, conference_name)
 
+    print("getLeagueStandings() 執行完成")
     return message
 
 
