@@ -8,11 +8,15 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSend
 import os
 import warnings
 import requests
+import threading
 import pandas as pd
 from functions.getGuideMessage import getGuideMessage
 from functions.getLeagueStandings import getLeagueStandings
 from functions.getPlayersStatistics import getPlayersStatistics
+from functions.getShotChartImage import getShotChartImage
 import utils.config as config
+from utils.deleteImageFromImgur import deleteImageFromImgur
+from utils.deleteImageFromDemo import deleteImageFromDemo
 
 # 忽略特定的棄用警告
 warnings.filterwarnings("ignore", category=DeprecationWarning)
@@ -35,7 +39,7 @@ def send_loading_animation(user_id):
     response = requests.post(url, json=data, headers=headers)
 
     if response.status_code == 202:
-        print("載入動畫顯示成功")
+        print("載入動畫成功")
     else:
         print(f"載入動畫失敗: {response.status_code}, {response.text}")
 
@@ -67,36 +71,29 @@ def handle_message(event):
         message = getLeagueStandings()
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
-    elif textSendByUser[0:3] == "可視化":
-        # basic
+    elif textSendByUser[0:3] == "投籃圖":
         playerName = textSendByUser[3:].strip()
+        image = getShotChartImage(playerName)
 
-        if playerName == "Kawhi Leonard":
+        if image["status"] == 200:
             image_message = ImageSendMessage(
-                original_content_url="https://i.imgur.com/NSyGDBU.png",
-                preview_image_url="https://i.imgur.com/NSyGDBU.png",
+                original_content_url=image["message"],
+                preview_image_url=image["message"],
             )
             line_bot_api.reply_message(event.reply_token, image_message)
+
+            image_name = image["name"]
+            timer = threading.Timer(5.0, deleteImageFromDemo, [image_name])
+            timer.start()
+
+            image_id = image["id"]
+            timer2 = threading.Timer(10.0, deleteImageFromImgur, [image_id])
+            timer2.start()
+
         else:
             line_bot_api.reply_message(
-                event.reply_token, TextSendMessage(text="請輸入正確球員名字")
+                event.reply_token, TextSendMessage(text=image["message"])
             )
-
-        # developing...
-
-        # playerName = textSendByUser[4:]
-        # loop = asyncio.get_event_loop()
-        # link = loop.run_until_complete(main(playerName))
-
-        # if link != "Failed":
-        #     image_message = ImageSendMessage(
-        #         original_content_url=link,
-        #         preview_image_url=link,
-        #     )
-        #     line_bot_api.reply_message(event.reply_token, image_message)
-        # else:
-        #     message = "搜尋失敗 請重新輸入"
-        #     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=message))
 
     else:
         sortRule = textSendByUser.split(" ")  # 獲取排序規則

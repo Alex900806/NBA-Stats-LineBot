@@ -21,7 +21,7 @@ def getShotData(id: int, team_ids: int, seasons: str):
 def drawShotChart(
     df: pd.DataFrame,
     name: str,
-    season=True,
+    season: str,
     RA=True,
     extent=(-250, 250, -47.5, 422.5),  # 修改 extent 使 ymin < ymax
     gridsize=25,
@@ -36,8 +36,8 @@ def drawShotChart(
         y = df.LOC_Y + 60
         # Annotate player name and season
         plt.text(-240, 430, f"{name}", fontsize=21, color="black")
-        season = f"NBA {season[0][:4]}-{season[-1][-2:]}"
-        plt.text(-250, -20, season, fontsize=8, color="black")
+        season = f"NBA Season {season}"
+        plt.text(-240, 375, season, fontsize=10, color="red")
     else:
         cond = ~(
             (-45 < df.LOC_X) & (df.LOC_X < 45) & (-40 < df.LOC_Y) & (df.LOC_Y < 45)
@@ -47,8 +47,8 @@ def drawShotChart(
         # Annotate player name and season
         plt.text(-240, 430, f"{name}", fontsize=21, color="black")
         plt.text(-240, 400, "(Remove Restricted Area)", fontsize=10, color="red")
-        season = f"NBA {season[0][:4]}-{season[-1][-2:]}"
-        plt.text(-250, -20, season, fontsize=8, color="black")
+        season = f"NBA Season {season}"
+        plt.text(-240, 375, season, fontsize=10, color="red")
 
     hexbin = ax.hexbin(
         x,
@@ -57,7 +57,7 @@ def drawShotChart(
         bins="log",
         gridsize=gridsize,
         mincnt=2,
-        extent=extent,  # 確保 ymin 小於 ymax
+        extent=extent,
     )
 
     ax = drawCourt(ax, "black")
@@ -65,7 +65,7 @@ def drawShotChart(
     return fig
 
 
-def drawCourt(ax: mpl.axes, color="white"):
+def drawCourt(ax: mpl.axes, color: str):
     # 底角三分線
     ax.plot([-220, -220], [0, 140], linewidth=2, color=color)
     ax.plot([220, 220], [0, 140], linewidth=2, color=color)
